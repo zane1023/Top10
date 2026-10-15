@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apollyon Media: 2D/3D Animation, Design & Content</title>
+<meta name="description" content="Apollyon Media. 2D/3D animation, graphic design, and social content. All in one place, made simple.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0a0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Inter:wght@400;500;600&family=Newsreader:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0b0a0c;
+    --surface: #151318;
+    --surface-2: #1d1a20;
+    --text: #ede9e2;
+    --muted: #b7b2bc;
+    --accent: #c4293b;
+    --accent-2: #b08a3e;
+    --line: rgba(237,233,226,0.12);
+    --maxw: 1180px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth; background:var(--bg);}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .display{font-family:'Jost', sans-serif;}
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px; position:relative; z-index:3;}
+  @media(max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* Landscape phones/tablets: viewport height is short, so ease off tall
+     vertical rhythm sized for portrait so the hero and sections don't force
+     excess scrolling sideways-on. */
+  @media (orientation: landscape) and (max-height: 620px){
+    .hero{min-height:auto; padding-top:96px; padding-bottom:48px;}
+    section{padding:56px 0;}
+    .section-head{margin-bottom:36px;}
+  }
+
+  /* ---- Nav ---- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(11,10,12,0.95);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  /* The bar is already 95% opaque, so the blur is barely visible — but on a
+     phone it forces a full-viewport repaint on every scroll frame. Touch
+     devices get the flat bar; pointer devices keep the blur. */
+  @media (hover: none) and (pointer: coarse){
+    header{backdrop-filter:none; -webkit-backdrop-filter:none; background:rgba(11,10,12,0.98);}
+  }
+  nav{
+    max-width:var(--maxw); margin:0 auto; padding:18px 32px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  @media(max-width:640px){ nav{padding:16px 20px;} }
+  .logo{display:flex; align-items:center;}
+  .logo svg{height:30px; width:auto; display:block;}
+  .navlinks{display:flex; gap:32px; font-size:0.92rem;}
+  .navlinks a{text-decoration:none; color:var(--muted); transition:color .2s;}
+  .navlinks a:hover{color:var(--text);}
+  @media(max-width:640px){ .navlinks{display:none;} }
+
+  /* ---- Hero ---- */
+  .hero{
+    min-height:100vh;
+    min-height:100svh; /* stops the hero resizing as mobile Safari's bar hides */
+    display:flex; flex-direction:column; justify-content:center;
+    padding-top:80px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background: radial-gradient(ellipse 60% 50% at 70% 20%, rgba(196,41,59,0.16), transparent 60%),
+                radial-gradient(ellipse 50% 40% at 10% 80%, rgba(176,138,62,0.10), transparent 60%);
+    pointer-events:none;
+  }
+  .hero-inner{position:relative; z-index:1; display:grid; grid-template-columns:1fr 260px; column-gap:56px; align-items:start;}
+  @media(max-width:860px){ .hero-inner{grid-template-columns:1fr;} }
+  .hero-main{grid-column:1; }
+  .eyebrow{
+    color:var(--muted); font-size:0.85rem; margin-bottom:20px;
+    opacity:0; transform:translateY(10px);
+    animation:rise .7s ease forwards .1s;
+  }
+  h1.hero-title{
+    font-size:clamp(2.6rem, 6.4vw, 5.2rem);
+    font-weight:700; line-height:0.98; letter-spacing:-0.01em;
+    max-width:820px;
+    opacity:0; transform:translateY(16px);
+    animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards .22s;
+  }
+  .hero-title-sub{
+    font-size:clamp(1.3rem, 2.6vw, 1.9rem);
+    font-weight:400; line-height:1.2; letter-spacing:-0.005em;
+    color:var(--muted); max-width:700px; margin-top:10px;
+    opacity:0; transform:translateY(14px);
+    animation:rise .8s cubic-bezier(.2,.7,.2,1) forwards .32s;
+  }
+  .hero-note{
+    grid-column:2; grid-row:1 / 3;
+    padding-left:28px; margin-top:12px;
+    border-left:1px solid var(--line);
+    opacity:0; transform:translateY(12px);
+    animation:rise .8s ease forwards .4s;
+  }
+  .hero-note p{
+    font-family:'Newsreader', serif; font-style:italic; font-weight:400;
+    font-size:1.15rem; line-height:1.5; color:var(--text);
+  }
+  @media(max-width:860px){
+    .hero-note{grid-column:1; grid-row:auto; padding-left:20px; margin-top:28px; max-width:420px;}
+  }
+  .hero-cta{
+    grid-column:1;
+    margin-top:40px; display:flex; gap:16px; flex-wrap:wrap;
+    opacity:0; transform:translateY(12px);
+    animation:rise .8s ease forwards .55s;
+  }
+  @keyframes rise{ to{opacity:1; transform:translateY(0);} }
+  @media (prefers-reduced-motion: reduce){
+    .eyebrow,h1.hero-title,.hero-sub,.hero-cta{animation:none; opacity:1; transform:none;}
+  }
+
+  .btn{
+    display:inline-block; padding:14px 28px; font-size:0.95rem; font-weight:500;
+    text-decoration:none; border-radius:2px; transition:transform .15s ease, background .2s ease;
+    touch-action:manipulation; /* no double-tap-zoom wait before the tap registers */
+  }
+  .navlinks a, .ig-link, footer a{touch-action:manipulation;}
+  .btn-primary{background:var(--accent); color:#fff;}
+  .btn-primary:hover{background:#a8202f;}
+  .btn-ghost{border:1px solid var(--line); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--accent-2);}
+  .btn:focus-visible, a:focus-visible, button:focus-visible{outline:2px solid var(--accent-2); outline-offset:3px;}
+
+  /* ---- Mail app chooser (phones/tablets only) ----
+     On touch devices the mailto handoff is unpredictable, so instead of
+     guessing we present the mail apps and let the visitor pick. */
+  .mail-sheet-backdrop{
+    position:fixed; inset:0; z-index:100;
+    background:rgba(11,10,12,0.72);
+    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+    display:flex; align-items:flex-end; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity .2s ease;
+  }
+  /* Author rules beat the UA [hidden] rule, so restate it explicitly. */
+  .mail-sheet-backdrop[hidden]{display:none;}
+  .mail-sheet-backdrop.is-open{opacity:1; pointer-events:auto;}
+  body.sheet-open{overflow:hidden;} /* stop the page scrolling behind the sheet */
+  .mail-sheet{
+    width:100%; max-width:520px; text-align:left;
+    background:var(--surface-2);
+    border:1px solid var(--line); border-bottom:0;
+    border-radius:14px 14px 0 0;
+    padding:22px 20px calc(20px + env(safe-area-inset-bottom));
+    transform:translateY(16px); transition:transform .22s ease;
+    max-height:86vh; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  }
+  .mail-sheet-backdrop.is-open .mail-sheet{transform:translateY(0);}
+  .mail-sheet h3{
+    font-family:'Jost', sans-serif; font-size:1.05rem; font-weight:600;
+    letter-spacing:0.01em; margin-bottom:4px;
+  }
+  .mail-sheet .mail-sheet-sub{
+    color:var(--muted); font-size:0.85rem; line-height:1.5; margin-bottom:16px;
+  }
+  .mail-option{
+    display:flex; align-items:center; gap:14px; width:100%;
+    padding:14px 16px; margin-top:10px;
+    background:var(--surface); border:1px solid var(--line); border-radius:3px;
+    color:var(--text); font-family:inherit; font-size:0.98rem; font-weight:500;
+    text-align:left; text-decoration:none; cursor:pointer;
+    touch-action:manipulation;
+    transition:border-color .18s ease, background .18s ease;
+  }
+  .mail-option:active{background:#232028;}
+  .mail-option:hover{border-color:var(--accent-2);}
+  .mail-option .mail-badge{
+    flex:0 0 34px; height:34px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(237,233,226,0.07); color:var(--text);
+  }
+  .mail-option .mail-badge svg{display:block;}
+  .mail-badge.is-gmail{background:#fff;}
+  .mail-badge.is-outlook{background:#0f6cbd;}
+  .mail-badge.is-yahoo{background:#6001d2;}
+  .mail-option .mail-label{display:flex; flex-direction:column; line-height:1.3;}
+  .mail-option .mail-hint{color:var(--muted); font-size:0.78rem; font-weight:400;}
+  .mail-sheet-cancel{
+    display:block; width:100%; margin-top:16px; padding:12px;
+    background:none; border:0; color:var(--muted);
+    font-family:inherit; font-size:0.9rem; cursor:pointer;
+    touch-action:manipulation;
+  }
+  .mail-sheet-cancel:hover{color:var(--text);}
+  @media (prefers-reduced-motion: reduce){
+    .mail-sheet-backdrop, .mail-sheet{transition:none;}
+    .mail-sheet{transform:none;}
+  }
+
+  /* ---- Marquee ---- */
+  .marquee{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    overflow:hidden; white-space:nowrap; padding:22px 0;
+  }
+  .marquee-track{
+    display:inline-block; animation:scroll 26s linear infinite;
+    font-family:'Jost'; font-weight:600; font-size:1.4rem; color:var(--muted);
+  }
+  .marquee-track span{margin:0 28px;}
+  .marquee-track span.accent{color:var(--accent-2);}
+  @keyframes scroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+  @media (prefers-reduced-motion: reduce){ .marquee-track{animation:none;} }
+
+  /* ---- Section shell ---- */
+  section{padding:110px 0; background:var(--bg);}
+  @media(max-width:640px){ section{padding:70px 0;} }
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin-bottom:56px; border-bottom:1px solid var(--line); padding-bottom:24px;}
+  .section-head h2{font-size:clamp(1.8rem,3.4vw,2.6rem); font-weight:600;}
+  .section-head p{color:var(--muted); max-width:340px; font-size:0.95rem;}
+  @media(max-width:760px){ .section-head{flex-direction:column; align-items:flex-start;} }
+
+  /* ---- Services ---- */
+  .services{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--line);}
+  .service{padding:36px 28px; border-right:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .service:last-child{border-right:none;}
+  .service .num{color:var(--accent-2); font-family:'Jost'; font-size:0.85rem;}
+  .service h3{font-family:'Jost'; font-size:1.3rem; margin:14px 0 10px; font-weight:600;}
+  .service p{color:var(--muted); font-size:0.94rem;}
+  @media(max-width:760px){
+    .services{grid-template-columns:1fr;}
+    .service{border-right:none;}
+  }
+
+  /* ---- Gallery ---- */
+  .gallery-group{margin-bottom:64px;}
+  .gallery-group:last-child{margin-bottom:0;}
+  .gallery-group h3{font-family:'Jost'; font-size:1.15rem; font-weight:600; margin-bottom:20px; color:var(--muted);}
+  .grid{display:grid; gap:14px;}
+  .grid-a{grid-template-columns:1.4fr 1fr; grid-template-rows:1fr 1fr;}
+  .grid-a .tile:first-child{grid-row:1 / 3;}
+  .grid-b{grid-template-columns:repeat(3,1fr);}
+  @media(max-width:760px){
+    .grid-a, .grid-b{grid-template-columns:1fr; grid-template-rows:auto;}
+    .grid-a .tile:first-child{grid-row:auto;}
+  }
+  .tile{
+    position:relative; aspect-ratio:4/3; border-radius:2px; overflow:hidden;
+    background:linear-gradient(135deg, var(--surface), var(--surface-2));
+    border:1px solid var(--line);
+  }
+  .grid-a .tile:first-child{aspect-ratio:auto;}
+  .tile img{width:100%; height:100%; object-fit:cover; display:block;}
+  .tile .fallback{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:18px; font-size:0.8rem; color:var(--muted);
+    font-family:'Jost'; letter-spacing:0.02em;
+  }
+  .tile img{opacity:0; transition:opacity .35s ease;}
+  .tile.has-img img{opacity:1;}
+  .tile.has-img .fallback{display:none;}
+  @media (prefers-reduced-motion: reduce){ .tile img{transition:none;} }
+
+  /* ---- Process ---- */
+  .process{display:grid; grid-template-columns:repeat(3,1fr); gap:32px;}
+  @media(max-width:760px){ .process{grid-template-columns:1fr;} }
+  .step .step-num{font-family:'Jost'; color:var(--accent); font-size:2rem; font-weight:700;}
+  .step h3{font-family:'Jost'; font-size:1.2rem; margin:12px 0 10px; font-weight:600;}
+  .step p{color:var(--muted); font-size:0.94rem;}
+
+  /* ---- Pricing ---- */
+  .pricing{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--line);}
+  .tier{padding:40px 32px; border-right:1px solid var(--line);}
+  .tier:last-child{border-right:none;}
+  .tier.featured{background:var(--surface);}
+  .tier .tier-name{font-family:'Jost'; font-size:1.1rem; color:var(--muted); margin-bottom:8px;}
+  .tier .tier-price{font-family:'Jost'; font-size:2rem; font-weight:700; margin-bottom:18px;}
+  .tier .tier-price span{font-size:1rem; color:var(--muted); font-weight:400;}
+  .tier ul{list-style:none; margin-bottom:28px;}
+  .tier li{padding:8px 0; border-top:1px solid var(--line); font-size:0.9rem; color:var(--muted);}
+  .tier li:first-child{border-top:none;}
+  @media(max-width:760px){
+    .pricing{grid-template-columns:1fr;}
+    .tier{border-right:none; border-bottom:1px solid var(--line);}
+    .tier:last-child{border-bottom:none;}
+  }
+
+  /* ---- CTA / Contact ---- */
+  .cta-section{
+    background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    text-align:center;
+  }
+  .cta-section h2{font-size:clamp(2rem,5vw,3.2rem); font-weight:700; max-width:720px; margin:0 auto 24px;}
+  .cta-section p{color:var(--muted); max-width:480px; margin:0 auto 36px;}
+
+  footer{padding:48px 0; color:var(--muted); font-size:0.85rem; background:var(--bg);}
+
+  /* Ambient triangle field: fills the whole viewport as a persistent,
+     fixed backdrop (behind .wrap content, which is lifted to z-index:3
+     above). Triangles are generated and animated by the script at the
+     end of the document: idle drift via CSS animation on the wrapper,
+     cursor-proximity and click-ripple excitement applied via JS to the
+     inner .tri element's transform/opacity/glow each frame. */
+  .tri-field{
+    position:fixed; inset:0;
+    pointer-events:none; z-index:1; overflow:hidden;
+  }
+  .tri-wrap{
+    position:absolute;
+    animation-name:drift; animation-timing-function:ease-in-out;
+    animation-iteration-count:infinite; animation-direction:alternate;
+    will-change:transform;
+  }
+  @keyframes drift{
+    50%{ transform:translate(var(--fx), var(--fy)); }
+  }
+  .tri-field .tri{
+    position:absolute; top:0; left:0;
+    background:#141218;
+    will-change:transform, opacity, filter;
+  }
+  .tri-field .tri.t1{clip-path:polygon(50% 0%,0% 100%,100% 100%);}
+  .tri-field .tri.t2{clip-path:polygon(0% 0%,100% 50%,0% 100%);}
+  .tri-field .tri.t3{clip-path:polygon(100% 0%,100% 100%,0% 100%);}
+  .ripple{
+    position:absolute; width:20px; height:20px; margin:-10px 0 0 -10px;
+    border-radius:50%; pointer-events:none;
+    background:radial-gradient(circle,
+      transparent 0%, transparent 58%,
+      rgba(196,41,59,0.65) 68%,
+      rgba(196,41,59,0.3) 80%,
+      transparent 92%);
+    filter:blur(2.5px);
+    transform:scale(0); opacity:0.95;
+    animation:rippleExpand 1.15s cubic-bezier(.2,.7,.3,1) forwards;
+  }
+  @keyframes rippleExpand{
+    0%{ transform:scale(0); opacity:0.95; }
+    65%{ opacity:0.45; }
+    100%{ transform:scale(42); opacity:0; }
+  }
+  /* Lite mode is switched on by the script for touch devices. Per-frame
+     drop-shadows and blurred ripples are what make the field crawl on an
+     iPhone, so there the glow is baked in statically and the shapes stay
+     on the compositor. Pointer devices never get this class. */
+  .tri-field.lite .tri{
+    will-change:transform, opacity;
+    filter:drop-shadow(0 0 2px rgba(196,41,59,0.25));
+  }
+  .tri-field.lite .ripple{filter:none;}
+  @media (prefers-reduced-motion: reduce){
+    .tri-wrap{animation:none;}
+    .ripple{display:none;}
+  }
+  .ig-link{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:8px 16px; border:1px solid var(--line); border-radius:999px;
+    text-decoration:none; color:var(--text); font-size:0.85rem;
+    transition:border-color .2s ease, background .2s ease, transform .15s ease;
+  }
+  .ig-link:hover{border-color:var(--accent); background:rgba(196,41,59,0.08); transform:translateY(-1px);}
+  .ig-link svg{color:var(--accent-2); flex-shrink:0;}
+  .foot-inner{display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; border-top:1px solid var(--line); padding-top:28px;}
+  footer a{text-decoration:none; color:var(--muted); transition:color .2s;}
+  footer a:hover{color:var(--text);}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <svg viewBox="10 195 1580 210" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="letters">
+            <text x="140" y="380" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="210" letter-spacing="6">APOLLYON</text>
+          </clipPath>
+        </defs>
+        <g clip-path="url(#letters)">
+          <polygon points="140,200 320,200 140,300" fill="#f0ebe2" opacity="1.0"/>
+          <polygon points="320,200 325,285 140,300" fill="#f0ebe2" opacity="0.85"/>
+          <polygon points="140,300 325,285 140,400" fill="#f0ebe2" opacity="0.9"/>
+          <polygon points="325,285 320,400 140,400" fill="#f0ebe2" opacity="0.75"/>
+          <polygon points="320,200 500,200 325,285" fill="#f0ebe2" opacity="0.95"/>
+          <polygon points="500,200 495,315 325,285" fill="#f0ebe2" opacity="0.8"/>
+          <polygon points="325,285 495,315 320,400" fill="#f0ebe2" opacity="0.85"/>
+          <polygon points="495,315 500,400 320,400" fill="#f0ebe2" opacity="0.7"/>
+          <polygon points="500,200 680,200 495,315" fill="#f0ebe2" opacity="0.85"/>
+          <polygon points="680,200 675,280 495,315" fill="#f0ebe2" opacity="0.7"/>
+          <polygon points="495,315 675,280 500,400" fill="#f0ebe2" opacity="0.75"/>
+          <polygon points="675,280 680,400 500,400" fill="#f0ebe2" opacity="0.6"/>
+          <polygon points="680,200 860,200 675,280" fill="#f0ebe2" opacity="0.7"/>
+          <polygon points="860,200 865,320 675,280" fill="#cf2030" opacity="0.6"/>
+          <polygon points="675,280 865,320 680,400" fill="#f0ebe2" opacity="0.6"/>
+          <polygon points="865,320 860,400 680,400" fill="#cf2030" opacity="0.5"/>
+          <polygon points="860,200 1080,200 865,320" fill="#cf2030" opacity="0.75"/>
+          <polygon points="1080,200 1085,290 865,320" fill="#cf2030" opacity="0.6"/>
+          <polygon points="865,320 1085,290 860,400" fill="#cf2030" opacity="0.65"/>
+          <polygon points="1085,290 1080,400 860,400" fill="#cf2030" opacity="0.55"/>
+          <polygon points="1080,200 1400,200 1085,290" fill="#cf2030" opacity="0.85"/>
+          <polygon points="1400,200 1400,300 1085,290" fill="#cf2030" opacity="0.7"/>
+          <polygon points="1085,290 1400,300 1080,400" fill="#cf2030" opacity="0.75"/>
+          <polygon points="1400,300 1400,400 1080,400" fill="#cf2030" opacity="0.6"/>
+        </g>
+        <polygon points="93,284 143,275 134,327" fill="#f0ebe2" opacity="0.85"/>
+        <polygon points="75,337 117,329 109,373" fill="#f0ebe2" opacity="0.75"/>
+        <polygon points="56,239 92,232 85,269" fill="#cf2030" opacity="0.6"/>
+        <polygon points="38,321 66,316 61,346" fill="#cf2030" opacity="0.5"/>
+        <polygon points="19,263 41,259 37,282" fill="#cf2030" opacity="0.35"/>
+        <polygon points="1409,284 1459,275 1450,327" fill="#f0ebe2" opacity="0.85"/>
+        <polygon points="1447,237 1489,229 1481,273" fill="#f0ebe2" opacity="0.75"/>
+        <polygon points="1484,339 1520,332 1513,369" fill="#cf2030" opacity="0.65"/>
+        <polygon points="1522,261 1550,256 1545,286" fill="#cf2030" opacity="0.5"/>
+        <polygon points="1559,323 1581,319 1577,342" fill="#cf2030" opacity="0.35"/>
+      </svg>
+    </div>
+    <div class="navlinks">
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<div class="tri-field" id="triField" aria-hidden="true"></div>
+
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="hero-main">
+      <h1 class="hero-title display">2D/3D animation, graphic design &amp; socials</h1>
+      <p class="hero-title-sub display">all in one place, made simple</p>
+    </div>
+    <div class="hero-note">
+      <p>High end renders, animation, and content built through a close, hands on process from brief to delivery.</p>
+    </div>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-primary">See the work</a>
+      <a href="#contact" class="btn btn-ghost">Get a quote</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>3D PRODUCT RENDERING</span>
+    <span class="accent">2D / 3D ANIMATION</span>
+    <span>GRAPHIC DESIGN</span>
+    <span class="accent">SOCIAL CONTENT</span>
+    <span>3D PRODUCT RENDERING</span>
+    <span class="accent">2D / 3D ANIMATION</span>
+    <span>GRAPHIC DESIGN</span>
+    <span class="accent">SOCIAL CONTENT</span>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">What Apollyon does</h2>
+      <p>Everything a growing brand needs to look finished, without hiring a studio.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="services">
+      <div class="service">
+        <div class="num">01</div>
+        <h3 class="display">3D Visualization</h3>
+        <p>Product renders, lifestyle scenes, and packaging visuals built in Blender, Cinema 4D, Houdini FX and more. No physical shoot required.</p>
+      </div>
+      <div class="service">
+        <div class="num">02</div>
+        <h3 class="display">2D / 3D Animation</h3>
+        <p>Motion for product launches, social ads, and brand content, from short loops to full explainer pieces.</p>
+      </div>
+      <div class="service">
+        <div class="num">03</div>
+        <h3 class="display">Graphic Design & Socials</h3>
+        <p>Brand visuals, ad creative, and a consistent content system for your social channels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Past projects </h2>
+         </div>
+
+    <div class="gallery-group">
+      <h3>3D & Product Renders</h3>
+      <div class="grid grid-a">
+        <div class="tile" data-img="imagesrender-1.png"><span class="fallback">imagesrender-1.png</span></div>
+        <div class="tile" data-img="imagesrender-2.png"><span class="fallback">imagesrender-2.png</span></div>
+        <div class="tile" data-img="imagesrender-3.png"><span class="fallback">imagesrender-3.png</span></div>
+      </div>
+    </div>
+
+    <div class="gallery-group">
+      <h3>Animation & Motion</h3>
+      <div class="grid grid-b">
+        <div class="tile" data-img="imagesmotion-1.png"><span class="fallback">imagesmotion-1.png</span></div>
+        <div class="tile" data-img="imagesmotion-2.png"><span class="fallback">imagesmotion-2.png</span></div>
+        <div class="tile" data-img="imagesmotion-3.png"><span class="fallback">imagesmotion-3.png</span></div>
+      </div>
+    </div>
+
+    <div class="gallery-group">
+      <h3>Graphic Design & Social Content</h3>
+      <div class="grid grid-b">
+        <div class="tile" data-img="imagesdesign-1.png"><span class="fallback">imagesdesign-1.png</span></div>
+        <div class="tile" data-img="imagesdesign-2.png"><span class="fallback">imagesdesign-2.png</span></div>
+        <div class="tile" data-img="imagesdesign-3.png"><span class="fallback">imagesdesign-3.png</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="process" style="background:var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">How it works</h2>
+      <p>A close, direct process. You work with the same person from brief to final file.</p>
+    </div>
+    <div class="process">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Send a brief</h3>
+        <p>Reference images, deadline, and budget. No call required unless you want one.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Review a draft</h3>
+        <p>You'll see a first pass before final render. One round of revisions included.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Get final files</h3>
+        <p>Delivered in whatever format you need: web, print, or social ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="display">Packages</h2>
+      <p>Rough starting points. Every quote is scoped to the brief.</p>
+    </div>
+    <div class="pricing">
+      <div class="tier">
+        <div class="tier-name">Starter</div>
+        <div class="tier-price">$300<span>–$700</span></div>
+        <ul>
+          <li>1–3 hero images</li>
+          <li>Single background / style</li>
+          <li>Fast turnaround</li>
+        </ul>
+      </div>
+      <div class="tier featured">
+        <div class="tier-name">Campaign</div>
+        <div class="tier-price">$1,000<span>–$2,500</span></div>
+        <ul>
+          <li>Full product set</li>
+          <li>Multiple angles & scenes</li>
+          <li>Social ready crops included</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="tier-name">Full Catalog</div>
+        <div class="tier-price">$3,000<span>–$5,000</span></div>
+        <ul>
+          <li>Full catalog / campaign package</li>
+          <li>Animation add on available</li>
+          <li>Ongoing content retainer option</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="wrap">
+    <h2 class="display">Have a product that needs to look finished?</h2>
+    <p>Send a brief and a few reference images. You'll hear back with a quote and timeline.</p>
+    <a href="mailto:zanefilby@gmail.com?subject=Project%20Brief"
+   id="briefEmailLink"
+   class="btn btn-primary"
+   onclick="return handleEmailClick(event)">Email a brief</a>
+
+<script>
+function handleEmailClick(e) {
+  // Phones and tablets get the app chooser (defined at the end of the body).
+  // The blank-tab dance below is a desktop-only workaround — on iOS it gets
+  // popup-blocked and strands the visitor on an empty tab. If the chooser
+  // somehow isn't there, fall through to the plain mailto link, which phones
+  // hand to their mail app perfectly well on their own.
+  var coarse = window.matchMedia && window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (coarse || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent || '')) {
+    if (typeof window.openMailChooser === 'function') {
+      e.preventDefault();
+      window.openMailChooser();
+      return false;
+    }
+    return true;
+  }
+
+  e.preventDefault();
+
+  var mailtoLink = 'mailto:zanefilby@gmail.com?subject=Project%20Brief';
+  var gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=zanefilby@gmail.com&su=Project%20Brief';
+  var handled = false;
+
+  // Open the blank tab immediately (user gesture, so it won't be blocked)
+  var fallbackTab = window.open('', '_blank');
+
+  // Wait for the focus-shift from opening that tab to settle, THEN start
+  // listening for the real signal (mail app opening) and fire mailto.
+  setTimeout(function() {
+    function markHandled() {
+      handled = true;
+      if (fallbackTab && !fallbackTab.closed) {
+        fallbackTab.close();
+      }
+    }
+
+    window.addEventListener('blur', markHandled, { once: true });
+    document.addEventListener('visibilitychange', function onVisChange() {
+      if (document.hidden) markHandled();
+    }, { once: true });
+
+    window.location.href = mailtoLink;
+
+    setTimeout(function() {
+      if (!handled) {
+        if (fallbackTab && !fallbackTab.closed) {
+          fallbackTab.location.href = gmailLink;
+        } else {
+          window.open(gmailLink, '_blank');
+        }
+      }
+    }, 300);
+  }, 50);
+
+  return false;
+}
+</script>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-inner">
+    <div><a href="/invaders.html">Apollyon Media</a> © <span id="year"></span></div>
+    <a class="ig-link" href="https://www.instagram.com/apollyon_au/" target="_blank" rel="noopener">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="3" y="3" width="18" height="18" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none"/>
+      </svg>
+      <span>@apollyon_au</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Gallery tiles. The source files are multi-megabyte PNGs, so they're served
+  // through Netlify's Image CDN, which resizes them and hands back WebP/AVIF at
+  // a fraction of the weight, and they're loaded lazily as you scroll instead
+  // of all nine landing at once on page load. If a tile's image can't be
+  // loaded at all, its filename placeholder stays visible.
+  (function(){
+    var WIDTHS = [420, 700, 1000, 1400];
+    function cdn(src, w){
+      return '/.netlify/images?url=' + encodeURIComponent('/' + src) + '&w=' + w + '&q=72';
+    }
+
+    document.querySelectorAll('.tile').forEach(function(tile){
+      var src = tile.getAttribute('data-img');
+      if(!src) return;
+
+      var img = document.createElement('img');
+      img.alt = '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.sizes = '(max-width: 760px) 92vw, (max-width: 1240px) 60vw, 700px';
+
+      img.onload = function(){ tile.classList.add('has-img'); };
+      img.onerror = function(){
+        // Image CDN unavailable (e.g. opened straight off disk): fall back to
+        // the original file, then give up and leave the placeholder showing.
+        if(img.dataset.raw) return;
+        img.dataset.raw = '1';
+        img.removeAttribute('srcset');
+        img.removeAttribute('sizes');
+        img.src = src;
+      };
+
+      img.srcset = WIDTHS.map(function(w){ return cdn(src, w) + ' ' + w + 'w'; }).join(', ');
+      img.src = cdn(src, 1000);
+      tile.appendChild(img);
+    });
+  })();
+
+  // ---- Ambient triangle field --------------------------------------
+  // Generates a scattered field of small triangles across the whole
+  // viewport. Each idly drifts via CSS animation. On top of that, a
+  // pointer-proximity glow/scale effect and tap/click-triggered ripple
+  // wave are driven here via requestAnimationFrame, using a smoothstep
+  // falloff so the effect reads as a soft, feathered circle that's
+  // strongest at the centre and fades at the edge.
+  //
+  // Phones run a lighter variant of the same effect ("lite"): a smaller
+  // field, and no per-frame drop-shadow, because recomputing 78 blurs
+  // every frame is what made this stutter on an iPhone. The loop also
+  // parks itself whenever the field is at rest and wakes on the next
+  // touch or mouse move, so an idle page costs nothing either way.
+  (function(){
+    var field = document.getElementById('triField');
+    if(!field) return;
+
+    function mq(q){ return !!(window.matchMedia && window.matchMedia(q).matches); }
+    var LITE = mq('(hover: none) and (pointer: coarse)');
+    var REDUCED = mq('(prefers-reduced-motion: reduce)');
+    if(LITE) field.classList.add('lite');
+
+    var COUNT = LITE ? 30 : 78;
+    var CURSOR_RADIUS = LITE ? 200 : 260;  // px, reach of the pointer glow
+    var RIPPLE_DURATION = 1200;            // ms
+    var RIPPLE_MAX_RADIUS = 860;           // px, how far the excitement wave travels
+    var RIPPLE_BAND = 150;                 // px, feathered width of the travelling wave
+    var MAX_RIPPLES = LITE ? 2 : 5;        // cap concurrent waves so the inner loop stays short
+    var TOUCH_FADE = 320;                  // ms the finger glow takes to fade after lift
+    var EPS = 0.002;                       // below this a triangle counts as at rest
+
+    var triangles = [];
+    var pointer = {x:-9999, y:-9999, active:false, release:0};
+    var ripples = [];
+    var running = false;
+    var lastTouchAt = -9999;
+    var vw = window.innerWidth, vh = window.innerHeight;
+
+    function rand(min, max){ return min + Math.random() * (max - min); }
+    function smoothstep(t){ t = Math.max(0, Math.min(1, t)); return t*t*(3-2*t); }
+
+    // Build the field
+    for(var i=0; i<COUNT; i++){
+      var wrap = document.createElement('div');
+      wrap.className = 'tri-wrap';
+      var xPct = rand(1, 99);
+      var yPct = rand(1, 99);
+      var size = rand(11, 27);
+      var rot = rand(0, 360);
+      var baseOpacity = rand(0.16, 0.4);
+      var shape = 't' + (1 + Math.floor(Math.random()*3));
+      var fdur = rand(9, 19);
+      var fdelay = rand(-10, 0);
+      var fx = rand(-30, 30);
+      var fy = rand(-26, 26);
+
+      wrap.style.left = xPct + 'vw';
+      wrap.style.top = yPct + 'vh';
+      wrap.style.setProperty('--fx', fx + 'px');
+      wrap.style.setProperty('--fy', fy + 'px');
+      wrap.style.animationDuration = fdur + 's';
+      wrap.style.animationDelay = fdelay + 's';
+
+      var tri = document.createElement('div');
+      tri.className = 'tri ' + shape;
+      tri.style.width = size + 'px';
+      tri.style.height = size + 'px';
+      tri.style.opacity = baseOpacity;
+      tri.style.transform = 'rotate(' + rot + 'deg) scale(1)';
+      // In lite mode the resting glow is a static CSS rule instead, so the
+      // filter is never touched again after this.
+      if(!LITE) tri.style.filter = 'drop-shadow(0 0 2px rgba(196,41,59,0.25))';
+
+      wrap.appendChild(tri);
+      field.appendChild(wrap);
+
+      triangles.push({
+        wrap: wrap, el: tri,
+        xPct: xPct, yPct: yPct,
+        px: (xPct/100) * vw, py: (yPct/100) * vh,
+        baseOpacity: baseOpacity, rot: rot, last: 0
+      });
+    }
+
+    function measure(){
+      vw = window.innerWidth; vh = window.innerHeight;
+      for(var i=0; i<triangles.length; i++){
+        triangles[i].px = (triangles[i].xPct/100) * vw;
+        triangles[i].py = (triangles[i].yPct/100) * vh;
+      }
+    }
+    window.addEventListener('resize', measure, {passive:true});
+    window.addEventListener('orientationchange', measure, {passive:true});
+
+    function wake(){
+      if(running || REDUCED) return;
+      running = true;
+      requestAnimationFrame(tick);
+    }
+
+    function spawnRipple(x, y){
+      if(REDUCED) return;
+      if(ripples.length >= MAX_RIPPLES) ripples.shift();
+      ripples.push({x:x, y:y, start:performance.now()});
+
+      var rip = document.createElement('div');
+      rip.className = 'ripple';
+      rip.style.left = x + 'px';
+      rip.style.top = y + 'px';
+      field.appendChild(rip);
+      function drop(){ if(rip.parentNode) rip.remove(); }
+      rip.addEventListener('animationend', drop);
+      // animationend never arrives if the page is backgrounded mid-animation.
+      setTimeout(drop, 2000);
+      wake();
+    }
+
+    function interactive(target){
+      return !!(target && target.closest && target.closest('a, button, input, textarea, select, label, [data-no-ripple]'));
+    }
+
+    window.addEventListener('pointermove', function(e){
+      pointer.x = e.clientX; pointer.y = e.clientY;
+      pointer.active = true; pointer.release = 0;
+      wake();
+    }, {passive:true});
+
+    window.addEventListener('pointerleave', function(){
+      pointer.active = false; pointer.release = 0;
+      wake();
+    }, {passive:true});
+
+    // Touch: a tap both lights the field under the finger and fires the wave.
+    // iOS doesn't reliably bubble `click` up to window from non-interactive
+    // elements, which is why the ripple never fired on an iPhone before.
+    var down = null;
+    window.addEventListener('pointerdown', function(e){
+      if(e.pointerType === 'mouse') return;
+      lastTouchAt = performance.now();
+      down = {x:e.clientX, y:e.clientY, at:lastTouchAt, target:e.target};
+      pointer.x = e.clientX; pointer.y = e.clientY;
+      pointer.active = true; pointer.release = 0;
+      wake();
+    }, {passive:true});
+
+    function endTouch(e){
+      if(e.pointerType === 'mouse') return;
+      lastTouchAt = performance.now();
+
+      // Ripple on a real tap only. A finger that moved or lingered was
+      // starting a scroll, and firing a wave mid-scroll is exactly the kind
+      // of work that makes a phone stutter.
+      if(e.type === 'pointerup' && down && !interactive(down.target)){
+        var moved = Math.abs(e.clientX - down.x) + Math.abs(e.clientY - down.y);
+        if(moved < 14 && (lastTouchAt - down.at) < 600) spawnRipple(e.clientX, e.clientY);
+      }
+      down = null;
+
+      // Fade the glow out rather than snapping it off when the finger lifts.
+      if(pointer.active && !pointer.release) pointer.release = performance.now();
+      wake();
+    }
+    window.addEventListener('pointerup', endTouch, {passive:true});
+    window.addEventListener('pointercancel', endTouch, {passive:true});
+
+    window.addEventListener('click', function(e){
+      // A touch tap already rippled on pointerdown; don't double up.
+      if(performance.now() - lastTouchAt < 900) return;
+      if(interactive(e.target)) return; // don't ripple real interactive elements
+      spawnRipple(e.clientX, e.clientY);
+    }, {passive:true});
+
+    function tick(now){
+      // prune finished ripples
+      if(ripples.length){
+        ripples = ripples.filter(function(r){ return (now - r.start) < RIPPLE_DURATION; });
+      }
+
+      // Touch glow decay after the finger lifts.
+      var pointerFade = 1;
+      if(pointer.active && pointer.release){
+        var gone = (now - pointer.release) / TOUCH_FADE;
+        if(gone >= 1){ pointer.active = false; pointer.release = 0; pointerFade = 0; }
+        else pointerFade = 1 - gone;
+      }
+
+      var wrote = false;
+
+      for(var i=0; i<triangles.length; i++){
+        var t = triangles[i];
+        var px = t.px, py = t.py;
+
+        var cursorInfluence = 0;
+        if(pointer.active){
+          var dx = pointer.x - px, dy = pointer.y - py;
+          var dist = Math.sqrt(dx*dx + dy*dy);
+          cursorInfluence = smoothstep(1 - dist/CURSOR_RADIUS) * pointerFade;
+        }
+
+        var waveInfluence = 0;
+        for(var r=0; r<ripples.length; r++){
+          var rp = ripples[r];
+          var elapsed = now - rp.start;
+          var tRatio = elapsed / RIPPLE_DURATION;
+          var eased = 1 - Math.pow(1 - tRatio, 2); // ease-out
+          var currentRadius = eased * RIPPLE_MAX_RADIUS;
+          var strength = 1 - tRatio;
+
+          var rdx = rp.x - px, rdy = rp.y - py;
+          var rdist = Math.sqrt(rdx*rdx + rdy*rdy);
+          var band = smoothstep(1 - Math.abs(rdist - currentRadius) / RIPPLE_BAND);
+          var w = band * strength;
+          if(w > waveInfluence) waveInfluence = w;
+        }
+
+        var influence = Math.max(cursorInfluence, waveInfluence);
+
+        // Nothing is touching this triangle and it was already at rest last
+        // frame, so there is no style to write. This is what lets an idle
+        // page (most of the time, on a phone) cost nothing at all.
+        if(influence < EPS && t.last < EPS){ t.last = 0; continue; }
+        t.last = influence;
+        wrote = true;
+
+        var opacity = t.baseOpacity + (0.85 - t.baseOpacity) * influence;
+        var scale = 1 + 0.4 * influence + 0.25 * waveInfluence;
+
+        // Ripple hits specifically redden the triangle and add a quick shake,
+        // so a passing wave reads as more energetic than a calm cursor glow.
+        var baseR=20, baseG=18, baseB=24, hotR=196, hotG=41, hotB=59;
+        var mix = waveInfluence;
+        var cr = Math.round(baseR + (hotR-baseR)*mix);
+        var cg = Math.round(baseG + (hotG-baseG)*mix);
+        var cb = Math.round(baseB + (hotB-baseB)*mix);
+
+        var jitterMag = 7 * waveInfluence;
+        var jx = jitterMag ? (Math.random()-0.5) * 2 * jitterMag : 0;
+        var jy = jitterMag ? (Math.random()-0.5) * 2 * jitterMag : 0;
+
+        t.el.style.opacity = opacity;
+        t.el.style.backgroundColor = 'rgb(' + cr + ',' + cg + ',' + cb + ')';
+        t.el.style.transform = 'translate(' + jx + 'px,' + jy + 'px) rotate(' + t.rot + 'deg) scale(' + scale + ')';
+        if(!LITE){
+          var glowBlur = 2 + 16 * influence;
+          var glowAlpha = 0.25 + 0.55 * influence;
+          t.el.style.filter = 'drop-shadow(0 0 ' + glowBlur + 'px rgba(196,41,59,' + glowAlpha + '))';
+        }
+      }
+
+      if(wrote || ripples.length || pointer.active){
+        requestAnimationFrame(tick);
+      } else {
+        running = false; // field is at rest; the next interaction wakes it
+      }
+    }
+
+    if(!REDUCED) wake();
+  })();
+</script>
+
+<div class="mail-sheet-backdrop" id="mailSheet" role="dialog" aria-modal="true"
+     aria-labelledby="mailSheetTitle" data-no-ripple hidden>
+  <div class="mail-sheet">
+    <h3 id="mailSheetTitle">Send your brief</h3>
+    <p class="mail-sheet-sub">Pick the app you use and it'll open with the address and subject filled in.</p>
+    <button type="button" class="mail-option" data-mail-app="default">
+<span class="mail-badge" aria-hidden="true">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2.5" y="5" width="19" height="14" rx="2.5"/>
+          <path d="M3.6 7.2 12 13l8.4-5.8"/>
+        </svg>
+      </span>
+      <span class="mail-label">Mail app<span class="mail-hint">Your phone's default</span></span>
+    </button>
+    <button type="button" class="mail-option" data-mail-app="gmail">
+<span class="mail-badge is-gmail" aria-hidden="true">
+        <svg width="20" height="15" viewBox="0 0 512 384">
+          <path fill="#4285f4" d="M34.9 384h81.5V186.2L0 98.9v250.2C0 368.4 15.6 384 34.9 384z"/>
+          <path fill="#34a853" d="M395.6 384h81.5c19.3 0 34.9-15.6 34.9-34.9V98.9L395.6 186.2V384z"/>
+          <path fill="#fbbc04" d="M395.6 34.9v151.3L512 98.9V52.4c0-43.1-49.2-67.7-83.7-41.8l-32.7 24.3z"/>
+          <path fill="#ea4335" d="M116.4 186.2V34.9L256 139.6 395.6 34.9v151.3L256 290.9z"/>
+          <path fill="#c5221f" d="M0 52.4v46.5l116.4 87.3V34.9L83.7 10.6C49.2-15.3 0 9.3 0 52.4z"/>
+        </svg>
+      </span>
+      <span class="mail-label">Gmail<span class="mail-hint">App, or Gmail on the web</span></span>
+    </button>
+    <button type="button" class="mail-option" data-mail-app="outlook">
+<span class="mail-badge is-outlook" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 32 32">
+          <path fill="#fff" opacity=".45" d="M17 9h9a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 26 23h-9z"/>
+          <ellipse cx="13" cy="16" rx="7.6" ry="9.2" fill="none" stroke="#fff" stroke-width="4"/>
+        </svg>
+      </span>
+      <span class="mail-label">Outlook<span class="mail-hint">App, or Outlook on the web</span></span>
+    </button>
+    <button type="button" class="mail-option" data-mail-app="yahoo">
+<span class="mail-badge is-yahoo" aria-hidden="true">
+        <svg width="21" height="21" viewBox="0 0 32 32">
+          <rect x="4" y="8.5" width="24" height="15" rx="2.5" fill="#fff"/>
+          <path d="M6 10.8 16 17.6l10-6.8" fill="none" stroke="#6001d2"
+                stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="mail-label">Yahoo Mail<span class="mail-hint">App, or Yahoo on the web</span></span>
+    </button>
+    <button type="button" class="mail-option" data-mail-app="copy">
+<span class="mail-badge" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="11.5" height="11.5" rx="2.5"/>
+          <path d="M15 5.6A2.6 2.6 0 0 0 12.4 3H5.6A2.6 2.6 0 0 0 3 5.6v6.8A2.6 2.6 0 0 0 5.6 15"/>
+        </svg>
+      </span>
+      <span class="mail-label" id="mailCopyLabel">Copy the address<span class="mail-hint">zanefilby@gmail.com</span></span>
+    </button>
+    <button type="button" class="mail-sheet-cancel" data-mail-close>Cancel</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  var sheet = document.getElementById('mailSheet');
+  if (!sheet) return;
+
+  var ADDRESS = 'zanefilby@gmail.com';
+  var SUBJECT = 'Project Brief';
+  var enc = encodeURIComponent;
+  var q = 'to=' + enc(ADDRESS) + '&subject=' + enc(SUBJECT);
+
+  var mailtoLink = 'mailto:' + ADDRESS + '?subject=' + enc(SUBJECT);
+  // Each provider's https compose page. Installed apps claim these as their
+  // own links (universal links on iOS, app links on Android) and open
+  // straight into a draft; where the app isn't installed the visitor lands on
+  // that provider's web compose page with everything already filled in.
+  var APPS = {
+    'default': { url: mailtoLink, native: true },
+    'gmail':   { url: 'https://mail.google.com/mail/?view=cm&fs=1&to=' + enc(ADDRESS) + '&su=' + enc(SUBJECT) },
+    'outlook': { url: 'https://outlook.live.com/mail/0/deeplink/compose?' + q },
+    'yahoo':   { url: 'https://compose.mail.yahoo.com/?' + q }
+  };
+
+  var copyLabel = document.getElementById('mailCopyLabel');
+  var lastFocus = null;
+
+  function openSheet() {
+    lastFocus = document.activeElement;
+    sheet.hidden = false;
+    document.body.classList.add('sheet-open');
+    // Next frame so the transition runs from the hidden state.
+    requestAnimationFrame(function() {
+      sheet.classList.add('is-open');
+      var first = sheet.querySelector('.mail-option');
+      if (first) first.focus();
+    });
+    document.addEventListener('keydown', onKeydown);
+  }
+
+  function closeSheet() {
+    sheet.classList.remove('is-open');
+    document.body.classList.remove('sheet-open');
+    document.removeEventListener('keydown', onKeydown);
+    setTimeout(function() { sheet.hidden = true; }, 220);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function onKeydown(e) {
+    if (e.key === 'Escape' || e.key === 'Esc') closeSheet();
+  }
+
+  // One path for every phone. Custom app schemes (googlegmail://, ymail://)
+  // are iOS-only inventions: on Android they're unregistered, so Chrome
+  // answers with an ERR_UNKNOWN_URL_SCHEME page, and on iOS an uninstalled
+  // app gets "Safari cannot open the page because the address is invalid".
+  // Ordinary https links avoid both, need no guessing and no fallback timer,
+  // and still open the app when it's installed.
+  function openApp(key) {
+    var target = APPS[key];
+    if (target) window.location.href = target.url;
+  }
+
+  function copyAddress() {
+    function confirmCopy() {
+      if (!copyLabel) return;
+      copyLabel.firstChild.nodeValue = 'Address copied';
+      setTimeout(function() {
+        copyLabel.firstChild.nodeValue = 'Copy the address';
+      }, 2000);
+    }
+
+    function fallbackCopy() {
+      var field = document.createElement('textarea');
+      field.value = ADDRESS;
+      field.setAttribute('readonly', '');
+      field.style.position = 'fixed';
+      field.style.opacity = '0';
+      document.body.appendChild(field);
+      field.select();
+      field.setSelectionRange(0, ADDRESS.length); // iOS needs the explicit range
+      try { document.execCommand('copy'); confirmCopy(); } catch (err) {}
+      document.body.removeChild(field);
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(ADDRESS).then(confirmCopy, fallbackCopy);
+    } else {
+      fallbackCopy();
+    }
+  }
+
+  sheet.addEventListener('click', function(e) {
+    if (e.target === sheet || e.target.closest('[data-mail-close]')) {
+      closeSheet();
+      return;
+    }
+
+    var option = e.target.closest('[data-mail-app]');
+    if (!option) return;
+
+    var key = option.getAttribute('data-mail-app');
+    if (key === 'copy') {
+      copyAddress();
+      return;
+    }
+
+    closeSheet();
+    openApp(key); // still inside the tap, so the navigation isn't blocked
+  });
+
+  window.openMailChooser = openSheet;
+})();
+</script>
+
+</body>
+</html>
