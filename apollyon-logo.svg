@@ -1,0 +1,43 @@
+<svg viewBox="10 195 1580 210" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="letters">
+      <text x="140" y="380" font-family="Arial, Helvetica, sans-serif" font-weight="800" font-size="210" letter-spacing="6">APOLLYON</text>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#letters)">
+    <polygon points="140,200 320,200 140,300" fill="#f0ebe2" opacity="1.0"/>
+    <polygon points="320,200 325,285 140,300" fill="#f0ebe2" opacity="0.85"/>
+    <polygon points="140,300 325,285 140,400" fill="#f0ebe2" opacity="0.9"/>
+    <polygon points="325,285 320,400 140,400" fill="#f0ebe2" opacity="0.75"/>
+    <polygon points="320,200 500,200 325,285" fill="#f0ebe2" opacity="0.95"/>
+    <polygon points="500,200 495,315 325,285" fill="#f0ebe2" opacity="0.8"/>
+    <polygon points="325,285 495,315 320,400" fill="#f0ebe2" opacity="0.85"/>
+    <polygon points="495,315 500,400 320,400" fill="#f0ebe2" opacity="0.7"/>
+    <polygon points="500,200 680,200 495,315" fill="#f0ebe2" opacity="0.85"/>
+    <polygon points="680,200 675,280 495,315" fill="#f0ebe2" opacity="0.7"/>
+    <polygon points="495,315 675,280 500,400" fill="#f0ebe2" opacity="0.75"/>
+    <polygon points="675,280 680,400 500,400" fill="#f0ebe2" opacity="0.6"/>
+    <polygon points="680,200 860,200 675,280" fill="#f0ebe2" opacity="0.7"/>
+    <polygon points="860,200 865,320 675,280" fill="#cf2030" opacity="0.6"/>
+    <polygon points="675,280 865,320 680,400" fill="#f0ebe2" opacity="0.6"/>
+    <polygon points="865,320 860,400 680,400" fill="#cf2030" opacity="0.5"/>
+    <polygon points="860,200 1080,200 865,320" fill="#cf2030" opacity="0.75"/>
+    <polygon points="1080,200 1085,290 865,320" fill="#cf2030" opacity="0.6"/>
+    <polygon points="865,320 1085,290 860,400" fill="#cf2030" opacity="0.65"/>
+    <polygon points="1085,290 1080,400 860,400" fill="#cf2030" opacity="0.55"/>
+    <polygon points="1080,200 1400,200 1085,290" fill="#cf2030" opacity="0.85"/>
+    <polygon points="1400,200 1400,300 1085,290" fill="#cf2030" opacity="0.7"/>
+    <polygon points="1085,290 1400,300 1080,400" fill="#cf2030" opacity="0.75"/>
+    <polygon points="1400,300 1400,400 1080,400" fill="#cf2030" opacity="0.6"/>
+  </g>
+  <polygon points="93,284 143,275 134,327" fill="#f0ebe2" opacity="0.85"/>
+  <polygon points="75,337 117,329 109,373" fill="#f0ebe2" opacity="0.75"/>
+  <polygon points="56,239 92,232 85,269" fill="#cf2030" opacity="0.6"/>
+  <polygon points="38,321 66,316 61,346" fill="#cf2030" opacity="0.5"/>
+  <polygon points="19,263 41,259 37,282" fill="#cf2030" opacity="0.35"/>
+  <polygon points="1409,284 1459,275 1450,327" fill="#f0ebe2" opacity="0.85"/>
+  <polygon points="1447,237 1489,229 1481,273" fill="#f0ebe2" opacity="0.75"/>
+  <polygon points="1484,339 1520,332 1513,369" fill="#cf2030" opacity="0.65"/>
+  <polygon points="1522,261 1550,256 1545,286" fill="#cf2030" opacity="0.5"/>
+  <polygon points="1559,323 1581,319 1577,342" fill="#cf2030" opacity="0.35"/>
+</svg>
