@@ -11,7 +11,7 @@ export const MIN_RUN_SECONDS = 8;
 export const BOARD_KEEP = 200;
 export const TOP_SHOWN = 10;
 export const RATE_WINDOW_MS = 10 * 60 * 1000;
-export const RATE_LIMIT = 60;
+export const RATE_LIMIT = 600;
 
 // ---- name filter -------------------------------------------------------
 // Contains-match: blocked anywhere in the name. Prefix-match: blocked only at the
