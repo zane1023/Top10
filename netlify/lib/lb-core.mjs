@@ -133,6 +133,23 @@ function dupeKeys(entries) {
   return drop;
 }
 
+// One-off score fixes for runs that failed to save. Applied on the next board load,
+// only ever raises a score. Key is the lowercase name, no spaces.
+export const SCORE_FIXES = { zane: 80567000 };
+
+function fixScores(entries) {
+  let n = 0;
+  for (const e of Object.values(entries)) {
+    const want = SCORE_FIXES[nameKey(e.n)];
+    if (want && e.s < want) { e.s = want; n++; }
+  }
+  return n;
+}
+
+function needsFix(entries) {
+  return Object.values(entries).some((e) => SCORE_FIXES[nameKey(e.n)] > e.s);
+}
+
 function dedupeEntries(entries) {
   const drop = dupeKeys(entries);
   for (const k of drop) delete entries[k];
@@ -185,8 +202,8 @@ export async function handle(req, ctx) {
     const myKey = validDeviceId(d) ? deviceKey(secret, d) : null;
     const cur = await store.read();
     const entries = cur && cur.data && cur.data.entries ? cur.data.entries : {};
-    if (dupeKeys(entries).length) {
-      const fixed = await mutateBoard(store, (b) => ({ changed: dedupeEntries(b.entries) > 0 }));
+    if (dupeKeys(entries).length || needsFix(entries)) {
+      const fixed = await mutateBoard(store, (b) => ({ changed: (dedupeEntries(b.entries) + fixScores(b.entries)) > 0 }));
       return json(publicView(fixed.board.entries, myKey));
     }
     return json(publicView(entries, myKey));
