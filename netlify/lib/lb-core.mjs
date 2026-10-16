@@ -16,7 +16,7 @@ export const RATE_LIMIT = 60;
 // ---- name filter -------------------------------------------------------
 // Contains-match: blocked anywhere in the name. Prefix-match: blocked only at the
 // start, so ordinary names like GRAPE or ESSEX still work.
-export const BLOCK_CONTAINS = ['nigg', 'niga', 'fuck', 'shit', '67'];
+export const BLOCK_CONTAINS = ['nigg', 'niga', 'fuck', 'shit', '67', 'kkk', 'fag', 'gay', 'coon'];
 export const BLOCK_PREFIX = ['rape', 'sex'];
 const LEET = { '4': 'a', '@': 'a', '3': 'e', '1': 'i', '!': 'i', '0': 'o', '5': 's', '$': 's' };
 
@@ -95,9 +95,15 @@ function ranked(entries) {
     .sort((a, b) => b.s - a.s || a.t - b.t);
 }
 
-// Names that were saved before the block list grew are shown as Black.
-export const PLACEHOLDER_NAME = 'Black';
-const shownName = (n) => (isBlockedName(n) ? PLACEHOLDER_NAME : n);
+// Names saved before the block list grew are masked when shown. RENAMES picks a
+// specific display name for a stored name (lowercase letters and digits only).
+export const PLACEHOLDER_NAME = 'ANON';
+export const RENAMES = { niga: 'Black', kkk: 'Lawson' };
+const shownName = (n) => {
+  if (!isBlockedName(n)) return n;
+  const raw = String(n).toLowerCase().replace(/[^a-z0-9]/g, '');
+  return RENAMES[raw] || PLACEHOLDER_NAME;
+};
 
 function publicView(entries, myKey) {
   const list = ranked(entries);
