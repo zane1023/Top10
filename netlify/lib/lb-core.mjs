@@ -1,9 +1,9 @@
 // Apollyon Invaders leaderboard: pure logic, storage is injected so it can be tested.
-// One record per device. Names up to 5 characters, filtered server side.
+// One record per device. Names up to 8 characters, filtered server side.
 
 import { createHmac, randomBytes, timingSafeEqual, createHash } from 'node:crypto';
 
-export const NAME_MAX = 5;
+export const NAME_MAX = 8;
 export const MAX_SCORE = 2_000_000_000;
 export const TOKEN_MAX_AGE_MS = 4 * 60 * 60 * 1000;
 export const MIN_RUN_SECONDS = 8;
@@ -16,7 +16,7 @@ export const RATE_LIMIT = 60;
 // ---- name filter -------------------------------------------------------
 // Contains-match: blocked anywhere in the name. Prefix-match: blocked only at the
 // start, so ordinary names like GRAPE or ESSEX still work.
-export const BLOCK_CONTAINS = ['nigg', 'niga', 'fuck', 'shit', '67', 'kkk', 'fag', 'gay', 'coon'];
+export const BLOCK_CONTAINS = ['nigg', 'niga', 'fuck', 'shit', '67', 'kkk', 'fag', 'gay', 'coon', 'pussy'];
 export const BLOCK_PREFIX = ['rape', 'sex'];
 const LEET = { '4': 'a', '@': 'a', '3': 'e', '1': 'i', '!': 'i', '0': 'o', '5': 's', '$': 's' };
 
