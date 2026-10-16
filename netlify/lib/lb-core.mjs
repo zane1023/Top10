@@ -115,6 +115,9 @@ function displayNames(list) {
   return out;
 }
 
+// Two names count as the same if they match ignoring case and spaces.
+const nameKey = (n) => String(n).normalize('NFKC').toLowerCase().replace(/\s+/g, '');
+
 function publicView(entries, myKey) {
   const list = ranked(entries);
   const names = displayNames(list);
@@ -196,6 +199,13 @@ export async function handle(req, ctx) {
     const { board, result } = await mutateBoard(store, (b) => {
       const prev = b.entries[key];
       if (prev && prev.k === tok.nonce) return { changed: false, replay: true };
+      // names must be unique: compare against what every other pilot is shown as
+      if (!prev || prev.n !== nm.name) {
+        const want = nameKey(nm.name);
+        for (const [k, shown] of displayNames(ranked(b.entries))) {
+          if (k !== key && nameKey(shown) === want) return { changed: false, taken: true };
+        }
+      }
       let changed = false;
       if (!prev) {
         if (score <= 0) return { changed: false, skipped: true };
@@ -215,6 +225,7 @@ export async function handle(req, ctx) {
       return { changed };
     });
     if (result.replay) return json({ error: 'token used' }, 409);
+    if (result.taken) return json({ error: 'That name is taken, pick a different name' }, 409);
     return json(publicView(board.entries, key));
   }
 
