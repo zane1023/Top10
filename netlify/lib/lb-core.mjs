@@ -4,11 +4,10 @@
 import { createHmac, randomBytes, timingSafeEqual, createHash } from 'node:crypto';
 
 export const NAME_MAX = 8;
-export const MAX_SCORE = 1_000_000_000_000;
-export const TOKEN_MAX_AGE_MS = 12 * 60 * 60 * 1000;
+// No score cap. Only limit is what a JS number can hold exactly (about 9 quadrillion).
+export const MAX_SCORE = Number.MAX_SAFE_INTEGER;
+export const TOKEN_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 export const MIN_RUN_SECONDS = 8;
-// Late game combos and Hyper multiply points a lot, so this is deliberately generous.
-export const MAX_POINTS_PER_SECOND = 10_000_000;
 export const BOARD_KEEP = 200;
 export const TOP_SHOWN = 10;
 export const RATE_WINDOW_MS = 10 * 60 * 1000;
@@ -211,7 +210,7 @@ export async function handle(req, ctx) {
     if (!nm.ok) return json({ error: nm.reason }, 422);
 
     const score = body.score;
-    if (!Number.isInteger(score) || score < 0 || score > MAX_SCORE) return json({ error: 'bad score' }, 422);
+    if (!Number.isSafeInteger(score) || score < 0 || score > MAX_SCORE) return json({ error: 'bad score' }, 422);
 
     const tok = readToken(secret, body.token);
     if (!tok) return json({ error: 'bad token' }, 403);
@@ -219,7 +218,6 @@ export async function handle(req, ctx) {
     if (age < 0 || age > TOKEN_MAX_AGE_MS) return json({ error: 'expired' }, 403);
     const secs = Math.max(age / 1000, 1);
     if (score > 0 && secs < MIN_RUN_SECONDS) return json({ error: 'too fast' }, 422);
-    if (score > secs * MAX_POINTS_PER_SECOND) return json({ error: 'score not plausible' }, 422);
 
     const key = deviceKey(secret, body.device);
     const { board, result } = await mutateBoard(store, (b) => {
