@@ -785,6 +785,7 @@
   var hasCelebratedNewTop = false;
   var millionShown = false;
   var afterMillion = false;
+  var billionShown = false;
   var nextMegaMilestone = 2000000;
 
   function rand(min, max){ return min + Math.random() * (max - min); }
@@ -1099,7 +1100,7 @@
     nextLifeBonusAt = 15000; slowTimer = 0;
     diffLevel = 1;
     playerTrail = []; glitchBars = []; glitchBarTimer = 0;
-    sessionStartTopScore = topScore; hasCelebratedNewTop = false; millionShown = false; afterMillion = false;
+    sessionStartTopScore = topScore; hasCelebratedNewTop = false; millionShown = false; afterMillion = false; billionShown = false;
     nextMegaMilestone = 2000000;
     player = makePlayer();
     bullets = [];
@@ -1237,7 +1238,11 @@
   var TIME_SLOW_RARE_SCORE = 10000000;
   // Past 1M you can hold at most 6 lives (10 before that).
   function maxLivesNow(){ return afterMillion ? 6 : 10; }
-  function slowAllowed(){ return score < TIME_SLOW_RARE_SCORE || Math.random() < 0.35; }
+  // From 500M, Time Slow is gone for the rest of the run.
+  var SLOW_OFF_SCORE = 500000000;
+  // At 1 billion the game pauses once, like it does at 1M.
+  var BILLION_SCORE = 1000000000;
+  function slowAllowed(){ return score < SLOW_OFF_SCORE && (score < TIME_SLOW_RARE_SCORE || Math.random() < 0.35); }
   function hyperBoostEnemies(){
     if(score < HYPER_BOOST_SCORE || hyperTimer <= 0 || !enemies) return;
     for(var i = 0; i < enemies.length; i++){
@@ -1393,6 +1398,19 @@
     triggerShake(14);
   }
 
+  function pauseForBillion(){
+    state = 'paused';
+    resetOverlayForRetry();
+    overlayH1.classList.remove('glitch');
+    overlayH1.classList.remove('death-glitch');
+    overlayH1.textContent = 'ONE BILLION';
+    overlayText.innerHTML = 'literally what are you doing, go touch grass.';
+    overlayPrompt.textContent = 'PRESS SPACE OR TAP TO RESUME';
+    overlay.classList.remove('hidden');
+    sfxNewHighScore();
+    triggerShake(14);
+  }
+
   function resumeFromMillion(){
     overlay.classList.add('hidden');
     state = 'playing';
@@ -1500,6 +1518,7 @@
     bullets.forEach(function(b){ b.y -= b.speed * dt; if(b.vx) b.x += b.vx * dt; });
     bullets = bullets.filter(function(b){ return b.y > -20; });
 
+    if(score >= SLOW_OFF_SCORE) slowTimer = 0;
     if(slowTimer > 0) slowTimer -= dt;
     var timeScale = slowTimer > 0 ? 0.32 : 1;
 
@@ -1675,6 +1694,11 @@
             void frenzyEl.offsetWidth;
             frenzyEl.classList.add('show');
             pauseForMillion();
+          }
+
+          if(!billionShown && score >= BILLION_SCORE){
+            billionShown = true;
+            pauseForBillion();
           }
 
           while(score >= nextMegaMilestone){
