@@ -956,20 +956,45 @@
 
   function lbSubmit(name){
     if(lbBusy) return;
-    if(!lbToken){ lbErr = 'Could not reach the leaderboard'; lbEditing = true; lbFail(); return; }
-    lbBusy = true; lbErr = '';
+    var sc = lbLastScore;           // captured now, a quick retry must not change what gets sent
     var token = lbToken;
+    lbErr = '';
+    if(!token){
+      // The run-start token never arrived (bad signal at the start). Get one now and
+      // wait out the server's minimum run time before sending, so the score still saves.
+      lbBusy = true;
+      var gaveUp = function(){ lbBusy = false; lbErr = 'Could not reach the leaderboard'; lbEditing = true; lbFail(); };
+      lbRender('death');
+      lbFetch(API + '?a=start', {method:'POST', headers:{'content-type':'application/json'}, body:'{}'}, 8000).then(function(x){
+        if(x.status === 200 && x.json && x.json.token){
+          setTimeout(function(){ lbBusy = false; lbSend(name, x.json.token, sc); }, 8500);
+        }else gaveUp();
+      }).catch(gaveUp);
+      return;
+    }
+    lbSend(name, token, sc);
+  }
+
+  function lbSend(name, token, sc){
+    lbBusy = true;
     var prevBest = lbPrevBest;
     lbFetch(API + '?a=submit', {
       method:'POST', headers:{'content-type':'application/json'},
-      body: JSON.stringify({token:token, device:lbDevice, name:name, score:lbLastScore})
-    }, 10000).then(function(x){
+      body: JSON.stringify({token:token, device:lbDevice, name:name, score:sc})
+    }, 15000).then(function(x){
       lbBusy = false;
       if(x.status === 200 && x.json && x.json.top){
         lbData = x.json; lbOffline = false; lbName = name; lbEditing = false;
-        lbJustSaved = !!(lbData.me && lbData.me.s === lbLastScore && (prevBest === null || lbLastScore > prevBest));
+        lbJustSaved = !!(lbData.me && lbData.me.s === sc && (prevBest === null || sc > prevBest));
         try{ localStorage.setItem(NAME_KEY, name); }catch(e){}
-        lbToken = null;
+        // only clear the token we used, a quick retry may already hold a fresh one
+        if(lbToken === token) lbToken = null;
+      }else if(x.status === 409 && x.json && x.json.error === 'token used'){
+        // an earlier send of this same run already went through, just refresh the board
+        lbEditing = false; lbJustSaved = true;
+        if(lbToken === token) lbToken = null;
+        lbLoad().then(function(){ lbRender('death'); });
+        return;
       }else{
         lbErr = (x.json && x.json.error) ? String(x.json.error) : 'Could not save';
         // a name problem means ask again, anything else keep the stored name
