@@ -4,10 +4,11 @@
 import { createHmac, randomBytes, timingSafeEqual, createHash } from 'node:crypto';
 
 export const NAME_MAX = 8;
-export const MAX_SCORE = 2_000_000_000;
-export const TOKEN_MAX_AGE_MS = 4 * 60 * 60 * 1000;
+export const MAX_SCORE = 1_000_000_000_000;
+export const TOKEN_MAX_AGE_MS = 12 * 60 * 60 * 1000;
 export const MIN_RUN_SECONDS = 8;
-export const MAX_POINTS_PER_SECOND = 5000;
+// Late game combos and Hyper multiply points a lot, so this is deliberately generous.
+export const MAX_POINTS_PER_SECOND = 10_000_000;
 export const BOARD_KEEP = 200;
 export const TOP_SHOWN = 10;
 export const RATE_WINDOW_MS = 10 * 60 * 1000;
