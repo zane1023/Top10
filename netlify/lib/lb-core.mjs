@@ -135,7 +135,7 @@ function dupeKeys(entries) {
 
 // One-off score fixes for runs that failed to save. Applied on the next board load,
 // only ever raises a score. Key is the lowercase name, no spaces.
-export const SCORE_FIXES = { zane: 80567000 };
+export const SCORE_FIXES = { zane: 80567000, nh: 1111000000 };
 
 function fixScores(entries) {
   let n = 0;
