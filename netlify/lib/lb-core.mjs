@@ -97,21 +97,32 @@ function ranked(entries) {
 
 // Names saved before the block list grew are masked when shown. RENAMES picks a
 // specific display name for a stored name (lowercase letters and digits only).
-export const PLACEHOLDER_NAME = 'ANON';
+// Any other masked name becomes "Pilot", or "Pilot 1", "Pilot 2"... by rank when
+// there is more than one.
+export const PLACEHOLDER_NAME = 'Pilot';
 export const RENAMES = { niga: 'Black', kkk: 'Lawson' };
-const shownName = (n) => {
-  if (!isBlockedName(n)) return n;
-  const raw = String(n).toLowerCase().replace(/[^a-z0-9]/g, '');
-  return RENAMES[raw] || PLACEHOLDER_NAME;
-};
+
+function displayNames(list) {
+  const out = new Map();
+  const fallback = [];
+  for (const e of list) {
+    if (!isBlockedName(e.n)) { out.set(e.k, e.n); continue; }
+    const raw = String(e.n).toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (RENAMES[raw]) out.set(e.k, RENAMES[raw]);
+    else fallback.push(e.k);
+  }
+  fallback.forEach((k, i) => out.set(k, fallback.length > 1 ? PLACEHOLDER_NAME + ' ' + (i + 1) : PLACEHOLDER_NAME));
+  return out;
+}
 
 function publicView(entries, myKey) {
   const list = ranked(entries);
-  const top = list.slice(0, TOP_SHOWN).map((e) => ({ n: shownName(e.n), s: e.s, you: e.k === myKey }));
+  const names = displayNames(list);
+  const top = list.slice(0, TOP_SHOWN).map((e) => ({ n: names.get(e.k), s: e.s, you: e.k === myKey }));
   let me = null;
   if (myKey) {
     const i = list.findIndex((e) => e.k === myKey);
-    if (i >= 0) me = { rank: i + 1, n: shownName(list[i].n), s: list[i].s };
+    if (i >= 0) me = { rank: i + 1, n: names.get(list[i].k), s: list[i].s };
   }
   return { top, me, total: list.length };
 }
