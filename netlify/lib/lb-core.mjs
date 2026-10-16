@@ -16,7 +16,7 @@ export const RATE_LIMIT = 60;
 // ---- name filter -------------------------------------------------------
 // Contains-match: blocked anywhere in the name. Prefix-match: blocked only at the
 // start, so ordinary names like GRAPE or ESSEX still work.
-export const BLOCK_CONTAINS = ['nigg', 'fuck', 'shit', '67'];
+export const BLOCK_CONTAINS = ['nigg', 'niga', 'fuck', 'shit', '67'];
 export const BLOCK_PREFIX = ['rape', 'sex'];
 const LEET = { '4': 'a', '@': 'a', '3': 'e', '1': 'i', '!': 'i', '0': 'o', '5': 's', '$': 's' };
 
@@ -95,13 +95,17 @@ function ranked(entries) {
     .sort((a, b) => b.s - a.s || a.t - b.t);
 }
 
+// Names that were saved before the block list grew are shown as ANON.
+export const PLACEHOLDER_NAME = 'ANON';
+const shownName = (n) => (isBlockedName(n) ? PLACEHOLDER_NAME : n);
+
 function publicView(entries, myKey) {
   const list = ranked(entries);
-  const top = list.slice(0, TOP_SHOWN).map((e) => ({ n: e.n, s: e.s, you: e.k === myKey }));
+  const top = list.slice(0, TOP_SHOWN).map((e) => ({ n: shownName(e.n), s: e.s, you: e.k === myKey }));
   let me = null;
   if (myKey) {
     const i = list.findIndex((e) => e.k === myKey);
-    if (i >= 0) me = { rank: i + 1, n: list[i].n, s: list[i].s };
+    if (i >= 0) me = { rank: i + 1, n: shownName(list[i].n), s: list[i].s };
   }
   return { top, me, total: list.length };
 }
