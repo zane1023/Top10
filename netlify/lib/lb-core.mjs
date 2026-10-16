@@ -118,6 +118,27 @@ function displayNames(list) {
 // Two names count as the same if they match ignoring case and spaces.
 const nameKey = (n) => String(n).normalize('NFKC').toLowerCase().replace(/\s+/g, '');
 
+// Older boards can hold two pilots with the same name. Keep the higher score and
+// delete the rest. Names on the block list are left alone (they are masked instead).
+function dupeKeys(entries) {
+  const groups = new Map();
+  for (const e of ranked(entries)) {
+    if (isBlockedName(e.n)) continue;
+    const g = nameKey(e.n);
+    if (!groups.has(g)) groups.set(g, []);
+    groups.get(g).push(e.k);
+  }
+  const drop = [];
+  for (const keys of groups.values()) for (const k of keys.slice(1)) drop.push(k);
+  return drop;
+}
+
+function dedupeEntries(entries) {
+  const drop = dupeKeys(entries);
+  for (const k of drop) delete entries[k];
+  return drop.length;
+}
+
 function publicView(entries, myKey) {
   const list = ranked(entries);
   const names = displayNames(list);
@@ -164,6 +185,10 @@ export async function handle(req, ctx) {
     const myKey = validDeviceId(d) ? deviceKey(secret, d) : null;
     const cur = await store.read();
     const entries = cur && cur.data && cur.data.entries ? cur.data.entries : {};
+    if (dupeKeys(entries).length) {
+      const fixed = await mutateBoard(store, (b) => ({ changed: dedupeEntries(b.entries) > 0 }));
+      return json(publicView(fixed.board.entries, myKey));
+    }
     return json(publicView(entries, myKey));
   }
 
