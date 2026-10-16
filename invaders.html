@@ -390,7 +390,7 @@
   #lbBox .lb-me button{margin-left:6px; padding:2px 8px; background:none; border-color:rgba(255,255,255,0.25);}
   #lbBox .lb-entry{display:flex; gap:8px; justify-content:center; align-items:center; margin-top:8px;}
   #lbBox .lb-entry input{
-    width:7.2em; text-align:center; text-transform:uppercase;
+    width:9.6em; text-align:center; text-transform:uppercase;
     font-family:'JetBrains Mono',monospace; font-size:1rem; letter-spacing:0.15em;
     color:var(--text); background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.3);
     border-radius:4px; padding:6px 4px; outline:none;
@@ -927,7 +927,7 @@
     }else if(mode === 'death' && lbLastScore > 0 && !lbOffline){
       var wrap = lbEl('div', 'lb-entry');
       var inp = document.createElement('input');
-      inp.type = 'text'; inp.id = 'lbName'; inp.maxLength = 5; inp.value = lbName;
+      inp.type = 'text'; inp.id = 'lbName'; inp.maxLength = 8; inp.value = lbName;
       inp.placeholder = 'NAME'; inp.autocomplete = 'off'; inp.autocapitalize = 'characters';
       inp.setAttribute('spellcheck', 'false'); inp.setAttribute('enterkeyhint', 'done');
       var btn = lbEl('button', 'lb-save', 'SAVE');
@@ -938,7 +938,7 @@
       lbBox.appendChild(lbEl('div', 'lb-err', lbErr));
       var fine = false;
       try{ fine = window.matchMedia('(pointer:fine)').matches; }catch(e){}
-      lbBox.appendChild(lbEl('div', 'lb-note', fine ? 'ENTER to save, ESC to skip. One score per device.' : 'One score per device. 5 characters max.'));
+      lbBox.appendChild(lbEl('div', 'lb-note', fine ? 'ENTER to save, ESC to skip. One score per device.' : 'One score per device. 8 characters max.'));
       if(fine){
         setTimeout(function(){
           var i3 = document.getElementById('lbName');
