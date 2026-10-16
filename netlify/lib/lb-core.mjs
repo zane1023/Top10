@@ -95,8 +95,8 @@ function ranked(entries) {
     .sort((a, b) => b.s - a.s || a.t - b.t);
 }
 
-// Names that were saved before the block list grew are shown as ANON.
-export const PLACEHOLDER_NAME = 'ANON';
+// Names that were saved before the block list grew are shown as Black.
+export const PLACEHOLDER_NAME = 'Black';
 const shownName = (n) => (isBlockedName(n) ? PLACEHOLDER_NAME : n);
 
 function publicView(entries, myKey) {
