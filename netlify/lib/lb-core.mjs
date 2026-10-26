@@ -150,6 +150,26 @@ function needsFix(entries) {
   return Object.values(entries).some((e) => SCORE_FIXES[nameKey(e.n)] > e.s);
 }
 
+// Cheated scores to remove. The pilot is also barred from posting again from that device.
+// Matches a name (lowercase, no spaces) with a score inside [min, max].
+export const REMOVALS = [{ name: 'noah', min: 6000000, max: 7500000 }];
+
+function removalKeys(entries) {
+  const out = [];
+  for (const [k, e] of Object.entries(entries)) {
+    if (REMOVALS.some((r) => nameKey(e.n) === r.name && e.s >= r.min && e.s <= r.max)) out.push(k);
+  }
+  return out;
+}
+
+function applyRemovals(board) {
+  const keys = removalKeys(board.entries);
+  if (!keys.length) return 0;
+  board.banned = Array.isArray(board.banned) ? board.banned : [];
+  for (const k of keys) { delete board.entries[k]; if (!board.banned.includes(k)) board.banned.push(k); }
+  return keys.length;
+}
+
 function dedupeEntries(entries) {
   const drop = dupeKeys(entries);
   for (const k of drop) delete entries[k];
@@ -202,8 +222,8 @@ export async function handle(req, ctx) {
     const myKey = validDeviceId(d) ? deviceKey(secret, d) : null;
     const cur = await store.read();
     const entries = cur && cur.data && cur.data.entries ? cur.data.entries : {};
-    if (dupeKeys(entries).length || needsFix(entries)) {
-      const fixed = await mutateBoard(store, (b) => ({ changed: (dedupeEntries(b.entries) + fixScores(b.entries)) > 0 }));
+    if (dupeKeys(entries).length || needsFix(entries) || removalKeys(entries).length) {
+      const fixed = await mutateBoard(store, (b) => ({ changed: (applyRemovals(b) + dedupeEntries(b.entries) + fixScores(b.entries)) > 0 }));
       return json(publicView(fixed.board.entries, myKey));
     }
     return json(publicView(entries, myKey));
@@ -238,6 +258,7 @@ export async function handle(req, ctx) {
 
     const key = deviceKey(secret, body.device);
     const { board, result } = await mutateBoard(store, (b) => {
+      if (Array.isArray(b.banned) && b.banned.includes(key)) return { changed: false, banned: true };
       const prev = b.entries[key];
       if (prev && prev.k === tok.nonce) return { changed: false, replay: true };
       // names must be unique: compare against what every other pilot is shown as
@@ -265,6 +286,7 @@ export async function handle(req, ctx) {
       }
       return { changed };
     });
+    if (result.banned) return json({ error: 'This device is blocked from the leaderboard' }, 403);
     if (result.replay) return json({ error: 'token used' }, 409);
     if (result.taken) return json({ error: 'That name is taken, pick a different name' }, 409);
     return json(publicView(board.entries, key));
