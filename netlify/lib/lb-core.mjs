@@ -152,7 +152,7 @@ function needsFix(entries) {
 
 // Cheated scores to remove. The pilot is also barred from posting again from that device.
 // Matches a name (lowercase, no spaces) with a score inside [min, max].
-export const REMOVALS = [{ name: 'noah', min: 6000000, max: 7500000 }];
+export const REMOVALS = [{ name: 'noah', min: 0, max: Number.MAX_SAFE_INTEGER }];
 
 function removalKeys(entries) {
   const out = [];
