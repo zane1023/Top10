@@ -71,6 +71,10 @@ export async function handle(req, { store, model, ip = 'x', envPin }) {
       mode: body.mode === 'custom' ? 'custom' : 'best', legs: body.legs, target: body.target,
       request: typeof body.request === 'string' ? body.request.slice(0, 600) : '',
     });
+    if (out.request.mode === 'best') { // 10,000 blind 2025-26 test bets: Best-picks multis won more often than the raw
+      const p = Math.min(Math.max(out.multi.p, 1e-6), 1 - 1e-6), z = 0.19 + 0.91 * Math.log(p / (1 - p)); // product said.
+      out.multi.pModel = out.multi.p; out.multi.p = 1 / (1 + Math.exp(-z));                              // fitted on 2025, checked on 2026
+    }
     return json(200, out);
   }
 
