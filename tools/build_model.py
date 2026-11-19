@@ -45,6 +45,8 @@ VENUE_STATE = {'MCG': 'VIC', 'M.C.G.': 'VIC', 'Marvel Stadium': 'VIC', 'Dockland
 AFLT_ID = {'Adelaide': '01', 'Carlton': '03', 'Collingwood': '04', 'Essendon': '05', 'Western Bulldogs': '07', 'Fremantle': '08',
            'Geelong': '09', 'Hawthorn': '10', 'Melbourne': '11', 'North Melbourne': '12', 'Port Adelaide': '13', 'Richmond': '14',
            'St Kilda': '15', 'Sydney': '16', 'West Coast': '18', 'Brisbane': '19', 'Gold Coast': '20', 'GWS': '21'}
+STATE_ALL = set(['Adelaide', 'Brisbane', 'Carlton', 'Collingwood', 'Essendon', 'Fremantle', 'Geelong', 'Gold Coast', 'GWS', 'Hawthorn',
+                 'Melbourne', 'North Melbourne', 'Port Adelaide', 'Richmond', 'St Kilda', 'Sydney', 'West Coast', 'Western Bulldogs', 'Tasmania'])
 AFLT_COLS = {'KI': 'kicks', 'MK': 'marks', 'HB': 'handballs', 'DI': 'disposals', 'GL': 'goals', 'TK': 'tackles', '%P': 'tog'}
 
 def log(*a): print('[build]', *a, flush=True)
@@ -233,6 +235,8 @@ def main():
     ap.add_argument('--parquet'); ap.add_argument('--offline', action='store_true')
     ap.add_argument('--out', default=os.path.join(ROOT, 'netlify', 'data', 'model.json'))
     ap.add_argument('--today')
+    ap.add_argument('--fixture', help='JSON file with Squiggle-style games (and optional tips) gathered by hand; used instead of calling Squiggle')
+    ap.add_argument('--extra', help='CSV of extra player-match rows (same columns as the feed) for games the feed is missing')
     a = ap.parse_args()
     today = dt.date.fromisoformat(a.today) if a.today else dt.datetime.now(dt.timezone(dt.timedelta(hours=10))).date()
     t0 = time.time()
@@ -248,7 +252,13 @@ def main():
     # 2. current-season fixture/results (Squiggle)
     year = today.year
     sq_games, tips = [], {}
-    if not a.offline:
+    if a.fixture:
+        fx = json.load(open(a.fixture))
+        sq_games = fx.get('games', [])
+        tips = {int(k): v for k, v in fx.get('tips', {}).items()}
+        if sq_games: year = max(int(g['year']) for g in sq_games)
+        log('fixture file games', len(sq_games), 'for', year)
+    elif not a.offline:
         try:
             for yr in (year, year + 1) if today.month >= 10 else (year,):
                 js = squiggle(f'games;year={yr}')['games']
@@ -258,6 +268,7 @@ def main():
             log('squiggle unavailable:', e)
     games = []
     for gm in sq_games:
+        if tn(gm.get('hteam')) not in STATE_ALL or tn(gm.get('ateam')) not in STATE_ALL: continue   # finals not set yet
         try:
             games.append(dict(id=gm['id'], season=int(gm['year']), round=int(gm['round']), roundname=gm.get('roundname') or f"Round {gm['round']}",
                               home=tn(gm['hteam']), away=tn(gm['ateam']), day=str(gm['date'])[:10], time=str(gm['date'])[11:16],
@@ -265,8 +276,12 @@ def main():
                               hscore=gm.get('hscore'), ascore=gm.get('ascore')))
         except Exception: pass
 
+    if a.extra:
+        ex = pd.read_csv(a.extra)
+        ex['date'] = pd.to_datetime(ex['day']).dt.tz_localize('Australia/Melbourne')
+        df = pd.concat([df, ex], ignore_index=True); log('added', len(ex), 'rows from', a.extra)
     # 3. completed current-season games missing from the feed -> AFL Tables
-    if games and not a.offline:
+    if games and not a.offline and not a.fixture:
         have = set(zip(df.season, df.day, df.team))
         known = df[df.season >= df.season.max() - 1].groupby('team').player.agg(set).to_dict()
         extra = []
@@ -344,22 +359,27 @@ def main():
                          tipping=round(float(np.mean((ph > 0.5) == (yh > 0.5))), 3))
     report['tested_on'] = f'{last_season} season, out of sample (form from earlier games only; calibration learned on {ev0})'
 
-    # 6. round to predict
-    rnd = None
+    # 6. rounds to predict: the next round by default, later rounds for bets asked for in advance
+    rnd, rounds = None, []
     upcoming = [g for g in games if g['complete'] < 100 and g['season'] >= year]
     if upcoming:
-        r0 = min(g['round'] for g in upcoming if g['season'] == min(x['season'] for x in upcoming))
-        rg = [g for g in upcoming if g['round'] == r0]
-        try:
-            tp = squiggle(f"tips;year={rg[0]['season']};round={r0}")['tips']
-            for t in tp:
-                if t.get('hconfidence') is not None: tips.setdefault(int(t['gameid']), []).append(float(t['hconfidence']) / 100)
-        except Exception as e: log('tips unavailable', e)
-        rnd = dict(season=rg[0]['season'], round=r0, label=rg[0]['roundname'], practice=False, games=[])
-        for g in rg:
-            cons = tips.get(g['id']); vs = VENUE_STATE.get(g['venue'])
-            rnd['games'].append(dict(key=f"{g['season']}-{r0}-{g['home']}-{g['away']}", home=g['home'], away=g['away'], day=g['day'], time=g['time'],
-                                     venue=g['venue'], vstate=vs, cons=round(float(np.mean(cons)), 3) if cons else None, ncons=len(cons or [])))
+        s0 = min(g['season'] for g in upcoming)
+        for i, r0 in enumerate(sorted({g['round'] for g in upcoming if g['season'] == s0})):
+            rg = sorted([g for g in upcoming if g['season'] == s0 and g['round'] == r0], key=lambda g: (g['day'], g['time']))
+            if i < 2 and not a.fixture:   # tipster consensus only exists for the next round or two
+                try:
+                    for t in squiggle(f"tips;year={s0};round={r0}")['tips']:
+                        if t.get('hconfidence') is not None: tips.setdefault(int(t['gameid']), []).append(float(t['hconfidence']) / 100)
+                except Exception as e: log('tips unavailable', r0, e)
+            rn = str(rg[0]['roundname'] or '')
+            rr = dict(season=s0, round=r0, label=f"{s0} {rn if rn.lower().startswith(('round', 'opening', 'qualifying', 'elimination', 'semi', 'preliminary', 'grand')) else f'Round {r0}'}",
+                      practice=False, games=[])
+            for g in rg:
+                cons = tips.get(g['id']); vs = VENUE_STATE.get(g['venue'])
+                rr['games'].append(dict(key=f"{g['season']}-{r0}-{g['home']}-{g['away']}", home=g['home'], away=g['away'], day=g['day'], time=g['time'],
+                                        venue=g['venue'], vstate=vs, cons=round(float(np.mean(cons)), 3) if cons else None, ncons=len(cons or [])))
+            rounds.append(rr)
+        rnd = rounds[0]
     if not rnd:   # off-season: practise on the last completed home-and-away round
         lr = df[(df.season == last_season) & (df['round'] <= 24)]['round'].max()
         gg = tg[(tg.season == last_season) & (tg['round'] == lr)]
@@ -367,6 +387,7 @@ def main():
         for g in gg.itertuples():
             rnd['games'].append(dict(key=f'{last_season}-{lr}-{g.home}-{g.away}', home=g.home, away=g.away, day=str(g.date)[:10], time='',
                                      venue=None, vstate=g.venue_state, cons=None, ncons=0))
+        rounds = [rnd]
 
     # practice rounds are a true test: form, ratings and availability use only games BEFORE that round
     if rnd['practice']:
@@ -437,7 +458,7 @@ def main():
                  params=dict(rating=rp, hl_s=HLS, hl_l=HLL, w=W, ow=OW, home_f=home_f, nb_r=nb_r,
                              bookie_margin={'h2h': 0.05, 'line': 0.07, 'prop': 0.12}),
                  ratings={t: round(v, 2) for t, v in R.items()}, state=STATE, opp={t: {s: round(v, 3) for s, v in d.items()} for t, d in of_cur.items()},
-                 calib=dict(**calib, h2h=h2h_cal), report=report, round=rnd, players=out_players, results=res,
+                 calib=dict(**calib, h2h=h2h_cal), report=report, round=rnd, rounds=rounds, players=out_players, results=res,
                  sources=['AFL StatsPro feed via github.com/DanielTomaro13/AFL-Modelling', 'Squiggle API (fixture, results, tips)', 'AFL Tables (fill-in match stats)'])
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
     with open(a.out, 'w') as fh: json.dump(model, fh, separators=(',', ':'))
