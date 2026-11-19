@@ -136,10 +136,11 @@ export function playerLeg(model, g, pl, stat, line, learn) {
   const pn = clamp(nbAtLeast(line, pl.m[stat][2], r), P_MIN, P_MAX); // a simple last-10 average, like a lazy bookie
   const pb = 0.25 * pn + 0.75 * p0; // bookies are sharp: mostly our number, nudged toward a plain recent average
   const book = Math.max(1.01, 1 / Math.min(0.99, pb * (1 + model.params.bookie_margin.prop)));
-  // For choosing legs, trust the model a little less where it is much more bullish than the player's recent games.
-  // A blind 2026 back-test showed these legs (mostly "to kick a goal" for players whose role had changed) hit
-  // about 15% of the time when the model said 22%; the picker was drawn to them because their estimated odds looked long.
-  const psel = clamp(p - 0.3 * Math.max(0, p - pn), P_MIN, P_MAX);
+  // For choosing legs, trust the model less where it is more bullish than the player's recent games.
+  // Blind back-tests of 2025 and 2026 (rounds built only from earlier games) found the picker was drawn to these legs
+  // because their estimated odds looked long, and they under-delivered — badly for goals (players whose role had
+  // changed: picked at ~30%, landed ~16%), mildly elsewhere. Goals 0.6 / others 0.15 tested best on both seasons.
+  const psel = clamp(p - (stat === 'goals' ? 0.6 : 0.15) * Math.max(0, p - pn), P_MIN, P_MAX);
   const short = stat === 'goals' && line === 1 ? 'to kick a goal' : `${line}+ ${stat}`;
   return {
     id: `P|${g.key}|${pl.n}|${stat}|${line}`, kind: 'player', game: g.key, player: pl.n, team: pl.t, opp, stat, line,
