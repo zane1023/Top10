@@ -107,6 +107,9 @@
   .ticks{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:6px}
   .ticks button{background:none;border:0;color:inherit;cursor:pointer;font-size:inherit}
   .ticks button:hover{color:var(--text)}
+  .presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;font-size:.74rem;color:var(--muted)}
+  .presets button{font-size:.74rem;padding:5px 10px;border-radius:999px;border:1px solid rgba(176,138,62,.45);background:none;color:#e9cf96;cursor:pointer;transition:.2s}
+  .presets button:hover{background:rgba(176,138,62,.12);box-shadow:0 0 12px rgba(176,138,62,.3)}
 
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 20px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2);cursor:pointer;font-weight:600;transition:.2s}
   .btn:hover{border-color:rgba(237,233,226,.3)}
@@ -261,9 +264,15 @@
         <div class="top"><label for="target">Target odds</label><span class="val gold" id="targetVal">5.0x</span></div>
         <input type="range" class="gold" id="target" min="0" max="1000" step="1" value="0">
         <div class="ticks" id="targetTicks"></div>
+        <div class="presets" id="presets"><span>Aim for a win rate:</span>
+          <button type="button" data-t="1.1" title="Won 89% of 430 blind test multis">~90% · 1.1x</button>
+          <button type="button" data-t="1.2" title="Won 86% of 431 blind test multis">80% · 1.2x</button>
+          <button type="button" data-t="1.75" title="Won 62% of 430 blind test multis">60% · 1.75x</button>
+          <button type="button" data-t="2" title="Won 55% of 426 blind test multis">50% · 2x</button>
+        </div>
       </div>
       <button class="btn btn-primary full" id="genBtn"><span class="spinner"></span><span>Generate multi</span></button>
-      <p class="note">“Best picks” has no favourites. It takes the legs most likely to all get up that still add up to your target. Leg odds and multi odds are shown both ways: <b style="color:#e9cf96">fair</b> is the model's true price, and <b style="color:#fff">bookie</b> is an estimate of what a bookmaker would offer, margin included.</p>
+      <p class="note">Your win rate is set mostly by the odds, not the number of legs: in 10,000 blind test bets, about 1.1x won ~90%, 1.2x ~85%, 1.5x ~75%, 1.75x ~60%, 2x ~55%, 3x ~40%. Nothing won 100%. “Best picks” has no favourites. It takes the legs most likely to all get up that still add up to your target. Leg odds and multi odds are shown both ways: <b style="color:#e9cf96">fair</b> is the model's true price, and <b style="color:#fff">bookie</b> is an estimate of what a bookmaker would offer, margin included.</p>
     </div>
 
     <!-- result -->
@@ -381,6 +390,7 @@
   tgtEl.value = fromT(5);
   $('#targetTicks').innerHTML = [1.1, 5, 25, 100, 500, 5000].map((t) => `<button type="button" data-t="${t}">${t}x</button>`).join('');
   $('#targetTicks').onclick = (e) => { const t = e.target.dataset.t; if (t) { tgtEl.value = fromT(+t); syncSliders(); } };
+  $('#presets').onclick = (e) => { const t = e.target.dataset.t; if (t) { tgtEl.value = fromT(+t); syncSliders(); toast('Win rates from 10,000 blind test bets on 2025–26. Any number of legs works.'); } };
   syncSliders();
 
   $('#modeSeg').onclick = (e) => {
