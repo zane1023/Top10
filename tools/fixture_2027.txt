@@ -1,0 +1,209 @@
+# 2027 AFL fixture from the Squiggle API (copied 19 Nov 2026). Used when Squiggle can't be reached from the Netlify build.
+# Format: id|round|roundname|home|away|date time|venue[|home score|away score]   Tipster lines: TIP|gameid|home win chance (0-1)
+40308|1|Round 1|Sydney|Geelong|2027-03-17 19:30:00|S.C.G.
+40309|1|Round 1|Fremantle|Western Bulldogs|2027-03-18 20:10:00|Perth Stadium
+40310|1|Round 1|Hawthorn|Brisbane Lions|2027-03-19 19:50:00|M.C.G.
+40311|1|Round 1|Richmond|Carlton|2027-03-20 12:35:00|M.C.G.
+40312|1|Round 1|Adelaide|Greater Western Sydney|2027-03-20 16:15:00|Adelaide Oval
+40313|1|Round 1|St Kilda|Collingwood|2027-03-20 19:40:00|M.C.G.
+40314|1|Round 1|North Melbourne|Port Adelaide|2027-03-21 13:10:00|Docklands
+40315|1|Round 1|Melbourne|Essendon|2027-03-21 15:15:00|M.C.G.
+40316|1|Round 1|West Coast|Gold Coast|2027-03-21 18:10:00|Perth Stadium
+40317|2|Round 2|Brisbane Lions|Collingwood|2027-03-25 19:50:00|Gabba
+40318|2|Round 2|North Melbourne|Carlton|2027-03-26 15:15:00|Docklands
+40319|2|Round 2|Fremantle|Adelaide|2027-03-26 19:15:00|Perth Stadium
+40320|2|Round 2|Greater Western Sydney|West Coast|2027-03-27 14:10:00|Manuka Oval
+40321|2|Round 2|Gold Coast|Richmond|2027-03-27 17:10:00|Carrara
+40322|2|Round 2|Port Adelaide|Melbourne|2027-03-27 20:10:00|Adelaide Oval
+40323|2|Round 2|Essendon|Sydney|2027-03-28 15:15:00|M.C.G.
+40324|2|Round 2|Western Bulldogs|St Kilda|2027-03-28 19:20:00|Docklands
+40325|2|Round 2|Geelong|Hawthorn|2027-03-29 15:15:00|M.C.G.
+40326|3|Round 3|Collingwood|Fremantle|2027-04-01 19:30:00|M.C.G.
+40327|3|Round 3|Sydney|Greater Western Sydney|2027-04-02 19:15:00|S.C.G.
+40328|3|Round 3|Carlton|Brisbane Lions|2027-04-02 19:50:00|Docklands
+40329|3|Round 3|St Kilda|Melbourne|2027-04-03 13:35:00|Docklands
+40330|3|Round 3|Adelaide|Western Bulldogs|2027-04-03 16:35:00|Adelaide Oval
+40331|3|Round 3|Hawthorn|Essendon|2027-04-03 19:45:00|M.C.G.
+40332|3|Round 3|Geelong|Richmond|2027-04-04 12:30:00|Kardinia Park
+40333|3|Round 3|Gold Coast|North Melbourne|2027-04-04 15:15:00|Carrara
+40334|3|Round 3|West Coast|Port Adelaide|2027-04-04 18:10:00|Perth Stadium
+40335|4|Round 4|Adelaide|Brisbane Lions|2027-04-08 19:40:00|Adelaide Oval
+40336|4|Round 4|Sydney|Collingwood|2027-04-09 19:40:00|Adelaide Oval
+40337|4|Round 4|Gold Coast|Greater Western Sydney|2027-04-10 12:35:00|Barossa Park
+40338|4|Round 4|Carlton|Melbourne|2027-04-10 13:35:00|Adelaide Oval
+40339|4|Round 4|Richmond|West Coast|2027-04-10 16:35:00|Norwood Oval
+40340|4|Round 4|Fremantle|Hawthorn|2027-04-10 19:45:00|Adelaide Oval
+40341|4|Round 4|Essendon|North Melbourne|2027-04-11 12:30:00|Norwood Oval
+40342|4|Round 4|St Kilda|Geelong|2027-04-11 15:15:00|Barossa Park
+40343|4|Round 4|Port Adelaide|Western Bulldogs|2027-04-11 19:15:00|Adelaide Oval
+40344|5|Round 5|Carlton|Collingwood|2027-04-15 19:30:00|M.C.G.
+40345|5|Round 5|Melbourne|Sydney|2027-04-16 19:40:00|M.C.G.
+40346|5|Round 5|Fremantle|West Coast|2027-04-16 20:10:00|Perth Stadium
+40347|5|Round 5|Adelaide|Gold Coast|2027-04-17 13:15:00|Adelaide Oval
+40348|5|Round 5|Richmond|North Melbourne|2027-04-17 16:15:00|M.C.G.
+40349|5|Round 5|Western Bulldogs|Hawthorn|2027-04-17 19:35:00|Docklands
+40350|5|Round 5|Essendon|Geelong|2027-04-18 12:30:00|M.C.G.
+40351|5|Round 5|St Kilda|Port Adelaide|2027-04-18 15:15:00|Docklands
+40352|5|Round 5|Brisbane Lions|Greater Western Sydney|2027-04-18 18:10:00|Gabba
+40353|6|Round 6|Gold Coast|Hawthorn|2027-04-22 19:30:00|Carrara
+40354|6|Round 6|Sydney|Adelaide|2027-04-23 19:40:00|S.C.G.
+40355|6|Round 6|Brisbane Lions|West Coast|2027-04-24 13:15:00|Gabba
+40356|6|Round 6|Geelong|North Melbourne|2027-04-24 16:15:00|Kardinia Park
+40357|6|Round 6|Melbourne|Richmond|2027-04-24 19:40:00|M.C.G.
+40358|6|Round 6|Port Adelaide|Carlton|2027-04-24 20:10:00|Adelaide Oval
+40359|6|Round 6|Greater Western Sydney|Western Bulldogs|2027-04-25 12:15:00|Manuka Oval
+40360|6|Round 6|Collingwood|Essendon|2027-04-25 15:15:00|M.C.G.
+40361|6|Round 6|Fremantle|St Kilda|2027-04-25 20:15:00|Perth Stadium
+40362|7|Round 7|Brisbane Lions|Sydney|2027-04-29 19:30:00|Gabba
+40363|7|Round 7|Hawthorn|Carlton|2027-04-30 19:40:00|M.C.G.
+40364|7|Round 7|Melbourne|Adelaide|2027-05-01 13:15:00|Traeger Park
+40365|7|Round 7|Essendon|Fremantle|2027-05-01 16:15:00|Docklands
+40366|7|Round 7|Greater Western Sydney|Geelong|2027-05-01 16:35:00|Sydney Showground
+40367|7|Round 7|West Coast|Collingwood|2027-05-01 19:35:00|Perth Stadium
+40368|7|Round 7|Western Bulldogs|Gold Coast|2027-05-02 12:30:00|Eureka Stadium
+40369|7|Round 7|Richmond|Port Adelaide|2027-05-02 15:15:00|Bellerive Oval
+40370|7|Round 7|North Melbourne|St Kilda|2027-05-02 18:10:00|Docklands
+40371|8|Round 8|Carlton|Geelong|2027-05-06 19:30:00|M.C.G.
+40372|8|Round 8|Collingwood|Western Bulldogs|2027-05-07 19:40:00|Docklands
+40373|8|Round 8|Port Adelaide|Adelaide|2027-05-07 20:10:00|Adelaide Oval
+40374|8|Round 8|Gold Coast|Essendon|2027-05-08 13:15:00|Carrara
+40375|8|Round 8|St Kilda|Richmond|2027-05-08 16:15:00|Docklands
+40376|8|Round 8|Sydney|North Melbourne|2027-05-08 19:35:00|S.C.G.
+40377|8|Round 8|Hawthorn|Greater Western Sydney|2027-05-09 12:30:00|York Park
+40378|8|Round 8|Melbourne|West Coast|2027-05-09 15:15:00|M.C.G.
+40379|8|Round 8|Fremantle|Brisbane Lions|2027-05-09 19:20:00|Perth Stadium
+40380|9|Round 9|Adelaide|Geelong|2027-05-13 19:30:00|Adelaide Oval
+40381|9|Round 9|Richmond|Essendon|2027-05-14 19:45:00|M.C.G.
+40382|9|Round 9|Greater Western Sydney|Fremantle|2027-05-15 13:15:00|Sydney Showground
+40383|9|Round 9|Melbourne|Gold Coast|2027-05-15 13:45:00|M.C.G.
+40384|9|Round 9|West Coast|Sydney|2027-05-15 16:15:00|Perth Stadium
+40385|9|Round 9|Hawthorn|Port Adelaide|2027-05-15 19:35:00|Docklands
+40386|9|Round 9|Brisbane Lions|St Kilda|2027-05-16 12:30:00|Gabba
+40387|9|Round 9|Carlton|Western Bulldogs|2027-05-16 15:15:00|M.C.G.
+40388|9|Round 9|North Melbourne|Collingwood|2027-05-16 18:10:00|Docklands
+40389|10|Round 10|Fremantle|Melbourne|2027-05-20 20:10:00|Perth Stadium
+40390|10|Round 10|Sydney|Hawthorn|2027-05-21 19:40:00|S.C.G.
+40391|10|Round 10|Port Adelaide|Brisbane Lions|2027-05-22 13:15:00|Adelaide Oval
+40392|10|Round 10|Geelong|West Coast|2027-05-22 16:15:00|Kardinia Park
+40393|10|Round 10|Western Bulldogs|North Melbourne|2027-05-22 16:35:00|Docklands
+40394|10|Round 10|Collingwood|Richmond|2027-05-22 19:35:00|M.C.G.
+40395|10|Round 10|St Kilda|Greater Western Sydney|2027-05-23 12:30:00|Docklands
+40396|10|Round 10|Essendon|Adelaide|2027-05-23 15:15:00|M.C.G.
+40397|10|Round 10|Gold Coast|Carlton|2027-05-23 18:10:00|Marrara Oval
+40398|11|Round 11|Western Bulldogs|Sydney|2027-05-27 19:30:00|Docklands
+40399|11|Round 11|Geelong|Melbourne|2027-05-28 19:40:00|Kardinia Park
+40400|11|Round 11|Hawthorn|St Kilda|2027-05-29 13:15:00|York Park
+40401|11|Round 11|Greater Western Sydney|Essendon|2027-05-29 16:15:00|Sydney Showground
+40402|11|Round 11|Port Adelaide|Collingwood|2027-05-29 19:35:00|Adelaide Oval
+40403|11|Round 11|North Melbourne|West Coast|2027-05-30 15:15:00|Hands Oval
+40404|11|Round 11|Carlton|Fremantle|2027-05-30 18:10:00|Docklands
+40405|12|Round 12|Western Bulldogs|Melbourne|2027-06-03 19:30:00|Docklands
+40406|12|Round 12|Collingwood|Hawthorn|2027-06-04 19:40:00|M.C.G.
+40407|12|Round 12|Richmond|Adelaide|2027-06-05 13:35:00|M.C.G.
+40408|12|Round 12|Brisbane Lions|Gold Coast|2027-06-05 16:35:00|Gabba
+40409|12|Round 12|North Melbourne|Fremantle|2027-06-05 19:35:00|Perth Stadium
+40410|12|Round 12|Essendon|St Kilda|2027-06-06 15:15:00|Docklands
+40411|12|Round 12|West Coast|Carlton|2027-06-06 20:10:00|Perth Stadium
+40412|13|Round 13|Adelaide|Hawthorn|2027-06-10 19:30:00|Adelaide Oval
+40413|13|Round 13|Geelong|Brisbane Lions|2027-06-11 19:40:00|Kardinia Park
+40414|13|Round 13|Gold Coast|Port Adelaide|2027-06-12 13:15:00|Carrara
+40415|13|Round 13|Richmond|Greater Western Sydney|2027-06-12 16:15:00|Docklands
+40416|13|Round 13|West Coast|Western Bulldogs|2027-06-12 19:35:00|Perth Stadium
+40417|13|Round 13|Sydney|St Kilda|2027-06-13 15:15:00|S.C.G.
+40418|13|Round 13|Carlton|Essendon|2027-06-13 19:20:00|M.C.G.
+40419|13|Round 13|Melbourne|Collingwood|2027-06-14 15:15:00|M.C.G.
+40420|14|Round 14|Hawthorn|Fremantle|2027-06-17 19:30:00|M.C.G.
+40421|14|Round 14|Western Bulldogs|Geelong|2027-06-18 19:40:00|Docklands
+40422|14|Round 14|Port Adelaide|Sydney|2027-06-19 13:35:00|Adelaide Oval
+40423|14|Round 14|Brisbane Lions|Richmond|2027-06-19 16:35:00|Gabba
+40424|14|Round 14|Essendon|North Melbourne|2027-06-19 19:35:00|Docklands
+40425|14|Round 14|Adelaide|Melbourne|2027-06-20 15:15:00|Adelaide Oval
+40426|14|Round 14|Greater Western Sydney|Gold Coast|2027-06-20 17:10:00|Sydney Showground
+40427|15|Round 15|Fremantle|Geelong|2027-06-24 20:10:00|Perth Stadium
+40428|15|Round 15|Sydney|Brisbane Lions|2027-06-25 19:40:00|S.C.G.
+40429|15|Round 15|Richmond|West Coast|2027-06-26 13:15:00|M.C.G.
+40430|15|Round 15|Adelaide|North Melbourne|2027-06-26 16:15:00|Adelaide Oval
+40431|15|Round 15|Gold Coast|Collingwood|2027-06-26 19:35:00|Carrara
+40432|15|Round 15|St Kilda|Carlton|2027-06-27 15:15:00|Docklands
+40433|15|Round 15|Greater Western Sydney|Port Adelaide|2027-06-27 17:10:00|Manuka Oval
+40434|16|Round 16|Brisbane Lions|Fremantle|2027-07-01 19:30:00|Gabba
+40435|16|Round 16|Sydney|Melbourne|2027-07-02 19:40:00|S.C.G.
+40436|16|Round 16|West Coast|Adelaide|2027-07-02 20:10:00|Perth Stadium
+40437|16|Round 16|Port Adelaide|Hawthorn|2027-07-03 13:35:00|Adelaide Oval
+40438|16|Round 16|Geelong|Gold Coast|2027-07-03 16:15:00|Kardinia Park
+40439|16|Round 16|Collingwood|Greater Western Sydney|2027-07-03 16:35:00|M.C.G.
+40440|16|Round 16|Carlton|North Melbourne|2027-07-03 19:35:00|Docklands
+40441|16|Round 16|Essendon|Richmond|2027-07-04 15:15:00|Perth Stadium
+40442|16|Round 16|St Kilda|Western Bulldogs|2027-07-04 17:10:00|Docklands
+40443|17|Round 17|Collingwood|Brisbane Lions|2027-07-05 12:00:00|M.C.G.
+40444|17|Round 17|Gold Coast|Western Bulldogs|2027-07-05 12:00:00|Carrara
+40445|17|Round 17|Greater Western Sydney|Carlton|2027-07-05 12:00:00|Sydney Showground
+40446|17|Round 17|Hawthorn|Geelong|2027-07-05 12:00:00|M.C.G.
+40447|17|Round 17|Melbourne|Port Adelaide|2027-07-05 12:00:00|Docklands
+40448|17|Round 17|North Melbourne|Sydney|2027-07-05 12:00:00|Docklands
+40449|17|Round 17|Adelaide|St Kilda|2027-07-05 12:30:00|Adelaide Oval
+40450|17|Round 17|Fremantle|Richmond|2027-07-05 14:00:00|Perth Stadium
+40451|17|Round 17|West Coast|Essendon|2027-07-05 14:00:00|Perth Stadium
+40452|18|Round 18|Brisbane Lions|North Melbourne|2027-07-12 12:00:00|Gabba
+40453|18|Round 18|Carlton|Melbourne|2027-07-12 12:00:00|M.C.G.
+40454|18|Round 18|Collingwood|Geelong|2027-07-12 12:00:00|M.C.G.
+40455|18|Round 18|Essendon|Greater Western Sydney|2027-07-12 12:00:00|Docklands
+40456|18|Round 18|Hawthorn|Gold Coast|2027-07-12 12:00:00|York Park
+40457|18|Round 18|Richmond|St Kilda|2027-07-12 12:00:00|M.C.G.
+40458|18|Round 18|Sydney|West Coast|2027-07-12 12:00:00|S.C.G.
+40459|18|Round 18|Western Bulldogs|Adelaide|2027-07-12 12:00:00|Docklands
+40460|18|Round 18|Port Adelaide|Fremantle|2027-07-12 12:30:00|Adelaide Oval
+40461|19|Round 19|Essendon|Collingwood|2027-07-19 12:00:00|M.C.G.
+40462|19|Round 19|Geelong|Carlton|2027-07-19 12:00:00|Kardinia Park
+40463|19|Round 19|Gold Coast|St Kilda|2027-07-19 12:00:00|Carrara
+40464|19|Round 19|Greater Western Sydney|Melbourne|2027-07-19 12:00:00|Sydney Showground
+40465|19|Round 19|North Melbourne|Hawthorn|2027-07-19 12:00:00|Docklands
+40466|19|Round 19|Richmond|Sydney|2027-07-19 12:00:00|M.C.G.
+40467|19|Round 19|Western Bulldogs|Brisbane Lions|2027-07-19 12:00:00|Docklands
+40468|19|Round 19|Adelaide|Port Adelaide|2027-07-19 12:30:00|Adelaide Oval
+40469|19|Round 19|West Coast|Fremantle|2027-07-19 14:00:00|Perth Stadium
+40470|20|Round 20|Brisbane Lions|Essendon|2027-07-26 12:00:00|Gabba
+40471|20|Round 20|Carlton|Adelaide|2027-07-26 12:00:00|Docklands
+40472|20|Round 20|Melbourne|Hawthorn|2027-07-26 12:00:00|M.C.G.
+40473|20|Round 20|North Melbourne|Richmond|2027-07-26 12:00:00|Docklands
+40474|20|Round 20|St Kilda|Geelong|2027-07-26 12:00:00|Docklands
+40475|20|Round 20|Sydney|Gold Coast|2027-07-26 12:00:00|S.C.G.
+40476|20|Round 20|Western Bulldogs|Greater Western Sydney|2027-07-26 12:00:00|Eureka Stadium
+40477|20|Round 20|Port Adelaide|West Coast|2027-07-26 12:30:00|Adelaide Oval
+40478|20|Round 20|Fremantle|Collingwood|2027-07-26 14:00:00|Perth Stadium
+40479|21|Round 21|Collingwood|Carlton|2027-08-02 12:00:00|M.C.G.
+40480|21|Round 21|Essendon|Western Bulldogs|2027-08-02 12:00:00|Docklands
+40481|21|Round 21|Geelong|Port Adelaide|2027-08-02 12:00:00|Kardinia Park
+40482|21|Round 21|Gold Coast|Fremantle|2027-08-02 12:00:00|Carrara
+40483|21|Round 21|Greater Western Sydney|North Melbourne|2027-08-02 12:00:00|Sydney Showground
+40484|21|Round 21|Hawthorn|Sydney|2027-08-02 12:00:00|York Park
+40485|21|Round 21|St Kilda|Brisbane Lions|2027-08-02 12:00:00|Docklands
+40486|21|Round 21|Adelaide|Richmond|2027-08-02 12:30:00|Adelaide Oval
+40487|21|Round 21|West Coast|Melbourne|2027-08-02 14:00:00|Perth Stadium
+40488|22|Round 22|Brisbane Lions|Geelong|2027-08-09 12:00:00|Gabba
+40489|22|Round 22|Collingwood|Adelaide|2027-08-09 12:00:00|M.C.G.
+40490|22|Round 22|Melbourne|Western Bulldogs|2027-08-09 12:00:00|M.C.G.
+40491|22|Round 22|North Melbourne|Gold Coast|2027-08-09 12:00:00|Docklands
+40492|22|Round 22|Richmond|Hawthorn|2027-08-09 12:00:00|M.C.G.
+40493|22|Round 22|St Kilda|West Coast|2027-08-09 12:00:00|Docklands
+40494|22|Round 22|Sydney|Carlton|2027-08-09 12:00:00|S.C.G.
+40495|22|Round 22|Port Adelaide|Essendon|2027-08-09 12:30:00|Adelaide Oval
+40496|22|Round 22|Fremantle|Greater Western Sydney|2027-08-09 14:00:00|Perth Stadium
+40497|23|Round 23|Carlton|Port Adelaide|2027-08-16 12:00:00|M.C.G.
+40498|23|Round 23|Collingwood|St Kilda|2027-08-16 12:00:00|Docklands
+40499|23|Round 23|Geelong|Essendon|2027-08-16 12:00:00|Kardinia Park
+40500|23|Round 23|Gold Coast|Brisbane Lions|2027-08-16 12:00:00|Carrara
+40501|23|Round 23|Greater Western Sydney|Sydney|2027-08-16 12:00:00|Sydney Showground
+40502|23|Round 23|North Melbourne|Melbourne|2027-08-16 12:00:00|Docklands
+40503|23|Round 23|Western Bulldogs|Richmond|2027-08-16 12:00:00|Docklands
+40504|23|Round 23|Adelaide|Fremantle|2027-08-16 12:30:00|Adelaide Oval
+40505|23|Round 23|West Coast|Hawthorn|2027-08-16 14:00:00|Perth Stadium
+40506|24|Round 24|Carlton|Greater Western Sydney|2027-08-23 12:00:00|Docklands
+40507|24|Round 24|Essendon|West Coast|2027-08-23 12:00:00|Docklands
+40508|24|Round 24|Geelong|Adelaide|2027-08-23 12:00:00|Kardinia Park
+40509|24|Round 24|Hawthorn|Western Bulldogs|2027-08-23 12:00:00|M.C.G.
+40510|24|Round 24|Melbourne|Brisbane Lions|2027-08-23 12:00:00|M.C.G.
+40511|24|Round 24|Richmond|Collingwood|2027-08-23 12:00:00|M.C.G.
+40512|24|Round 24|St Kilda|North Melbourne|2027-08-23 12:00:00|Docklands
+40513|24|Round 24|Port Adelaide|Gold Coast|2027-08-23 12:30:00|Adelaide Oval
+40514|24|Round 24|Fremantle|Sydney|2027-08-23 14:00:00|Perth Stadium
