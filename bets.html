@@ -250,7 +250,7 @@
       <div id="customBox">
         <textarea id="request" placeholder="e.g. Cats to win, Bontempelli 25+ disposals, Heeney to kick a goal — fill the rest, 6 legs at $30"></textarea>
         <div class="examples" id="examples"></div>
-        <p class="note" style="margin-top:6px">Name the legs you want and the engine fills the rest with the most likely picks. You can also say “avoid Richmond”, “only disposals”, “players only”, “6 legs”, “$50”.</p>
+        <p class="note" style="margin-top:6px">Name the legs you want and the engine fills the rest with the most likely picks. You can also say “avoid Richmond”, “only disposals”, “players only”, “6 legs”, “$50”, “next game” or “round 5” to bet ahead.</p>
       </div>
       <div class="slider">
         <div class="top"><label for="legs">Legs</label><span class="val" id="legsVal">4</span></div>
@@ -303,7 +303,7 @@
 
   <div class="tabs" id="tabs">
     <button class="on" data-tab="history">Bet history <span class="count" id="pendCount" style="display:none">0</span></button>
-    <button data-tab="round">This round</button>
+    <button data-tab="round">Next round</button>
     <button data-tab="report">Model report card</button>
   </div>
 
@@ -389,7 +389,7 @@
     $('#customBox').style.display = mode === 'custom' ? 'block' : 'none';
     if (mode === 'custom') $('#request').focus();
   };
-  const EX = ['Cats to win, Heeney to kick a goal', 'Bont 25+ disposals, fill the rest, 5 legs $15', 'only disposals, 8 legs, $20', 'Swans by 25+, avoid Richmond, players only', 'Pies lose, Nick Daicos 30+ disposals'];
+  const EX = ['next game only, 3 legs $5', 'round 3, Cats to win, Heeney to kick a goal', 'Bont 25+ disposals, fill the rest, 5 legs $15', 'only disposals, 8 legs, $20', 'Swans by 25+, avoid Richmond, players only', 'Pies lose, Nick Daicos 30+ disposals'];
   $('#examples').innerHTML = EX.map((x) => `<button type="button">${esc(x)}</button>`).join('');
   $('#examples').onclick = (e) => { if (e.target.tagName === 'BUTTON') $('#request').value = e.target.textContent; };
 
@@ -520,7 +520,8 @@
   }
   function renderRound(m) {
     const r = m.round;
-    $('#roundLabel').textContent = r.label;
+    const dm = (d) => d ? new Date(d + 'T12:00:00').toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }) : '';
+    $('#roundLabel').textContent = r.practice ? r.label : `Next up: ${r.label}${r.games[0] ? ' · from ' + dm(r.games[0].day) : ''}`;
     $('#roundChip').classList.toggle('practice', !!r.practice);
     $('#gamesTable').innerHTML = `<tr><th>Game</th><th>Chance</th><th class="num">Home</th><th class="num">Away</th><th class="num">Exp. margin</th></tr>` + r.games.map((g) => `
       <tr><td><b>${esc(g.home)}</b> v ${esc(g.away)}<div class="muted" style="font-size:.75rem">${esc(g.day)}${g.time ? ' ' + esc(g.time) : ''}${g.venue ? ' · ' + esc(g.venue) : ''}${g.cons != null ? ` · tipsters ${pc(g.cons)}` : ''}</div></td>
@@ -529,7 +530,7 @@
       <td class="num">${g.expMargin > 0 ? esc(g.home.split(' ')[0]) + ' +' + g.expMargin : g.expMargin < 0 ? esc(g.away.split(' ')[0]) + ' +' + -g.expMargin : 'even'}</td></tr>`).join('');
     $('#roundNote').textContent = r.practice
       ? 'Practice mode: there is no upcoming fixture yet, so the lab uses the last home-and-away round already played. Its picks only use games played before that round, so it is a fair test, and your bets settle straight away. Live rounds take over once the next season\'s fixture is out.'
-      : 'Team chances blend our rating model (60%) with the Squiggle tipsters\' average (40%).';
+      : `Multis are made for the next round still to be played. To bet ahead, put the round in a custom request (e.g. "round 3, Cats to win"), or say "next game" for just the next match. Open rounds: ${m.rounds.length ? m.rounds[0].round + '–' + m.rounds[m.rounds.length - 1].round : '—'}. Team chances blend our rating model (60%) with the Squiggle tipsters' average (40%) once tips are out.`;
     $('#foot').innerHTML = `Model built ${esc(m.built)} · data to ${esc(m.dataThrough)} · ${m.players} players.<br>Sources: ${m.sources.map(esc).join(' · ')}.<br>Bookie odds are estimates. Same-game legs are linked in real life, so actual multis can pay less. Just for fun.`;
   }
 
