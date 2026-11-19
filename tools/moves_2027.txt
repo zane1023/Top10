@@ -1,0 +1,201 @@
+# 2026->2027 off-season list changes (AFL.com.au, post trade period). IN = joins team for 2027, OUT = leaves team.
+IN|Adelaide|Harry Cunningham
+OUT|Adelaide|Jordon Butts
+OUT|Adelaide|Chayce Jones
+OUT|Adelaide|Luke Pedlar
+OUT|Adelaide|Lachlan Sholl
+OUT|Adelaide|Taylor Walker
+OUT|Adelaide|Tyler Welsh
+OUT|Brisbane|Luke Beecken
+OUT|Brisbane|Keidean Coleman
+OUT|Brisbane|Koby Evans
+OUT|Brisbane|Darragh Joyce
+OUT|Brisbane|Luke Lloyd
+OUT|Brisbane|Sam Marshall
+OUT|Brisbane|Will McLachlan
+OUT|Brisbane|Lachie Neale
+IN|Carlton|Joel Amartey
+IN|Carlton|Wil Parker
+IN|Carlton|Lachie Whitfield
+OUT|Carlton|Jordan Boyd
+OUT|Carlton|Ben Camporeale
+OUT|Carlton|Lucas Camporeale
+OUT|Carlton|Harry Charleson
+OUT|Carlton|Matt Duffy
+OUT|Carlton|Lachie Fogarty
+OUT|Carlton|Elijah Hollands
+OUT|Carlton|Hudson O'Keeffe
+OUT|Carlton|Flynn Riley
+OUT|Carlton|Adam Saad
+OUT|Carlton|Zac Williams
+OUT|Carlton|Lewis Young
+OUT|Carlton|Flynn Young
+IN|Collingwood|Jesse Hogan
+IN|Collingwood|Lachie Neale
+IN|Collingwood|Flynn Riley
+IN|Collingwood|Finnbarr Roarty
+OUT|Collingwood|Joel Cochran
+OUT|Collingwood|Harrison Coe
+OUT|Collingwood|Harry DeMattia
+OUT|Collingwood|Bobby Hill
+OUT|Collingwood|Noah Howes
+OUT|Collingwood|Wil Parker
+OUT|Collingwood|Scott Pendlebury
+OUT|Collingwood|Mitch Podhajski
+OUT|Collingwood|Jakob Ryan
+OUT|Collingwood|Steele Sidebottom
+OUT|Collingwood|Iliro Smit
+OUT|Collingwood|Lachlan Sullivan
+IN|Essendon|Jack Bowes
+IN|Essendon|Keidean Coleman
+OUT|Essendon|Nik Cox
+OUT|Essendon|Thomas Edwards
+OUT|Essendon|Saad El-Hawli
+OUT|Essendon|Kayle Gerreyn
+OUT|Essendon|Jade Gresham
+OUT|Essendon|Matt Guelfi
+OUT|Essendon|Liam McMahon
+OUT|Essendon|Zach Merrett
+OUT|Essendon|Jordan Ridley
+OUT|Essendon|Elijah Tsatas
+IN|Fremantle|Dominic Bedendo
+OUT|Fremantle|Bailey Banfield
+OUT|Fremantle|Jaren Carr
+OUT|Fremantle|Ryda Luke
+OUT|Fremantle|Ollie Murphy
+OUT|Fremantle|Nathan O'Driscoll
+OUT|Fremantle|Sam Sturt
+OUT|Fremantle|Sam Switkowski
+IN|Geelong|Toby Greene
+IN|Geelong|Rowan Marshall
+IN|Geelong|Jordan Ridley
+OUT|Geelong|Jed Bews
+OUT|Geelong|Jack Bowes
+OUT|Geelong|Mitch Knevitt
+OUT|Geelong|Jake Kolodjashnij
+OUT|Geelong|Keighton Matofai-Forbes
+OUT|Geelong|Rhys Stanley
+OUT|Geelong|Tyson Stengle
+OUT|Geelong|George Stevens
+IN|Gold Coast|Sam Butler
+IN|Gold Coast|Scott Pendlebury
+IN|Gold Coast|Aidan Schubert
+OUT|Gold Coast|Cooper Bell
+OUT|Gold Coast|Asher Eastham
+OUT|Gold Coast|Caleb Graham
+OUT|Gold Coast|Elliott Himmelberg
+OUT|Gold Coast|Nick Holman
+OUT|Gold Coast|Ben King
+OUT|Gold Coast|Jamarra Ugle-Hagan
+IN|GWS|Alex Mirkov
+OUT|GWS|Kieren Briggs
+OUT|GWS|Toby Greene
+OUT|GWS|Jesse Hogan
+OUT|GWS|Conor Stone
+OUT|GWS|Jake Stringer
+OUT|GWS|Lachie Whitfield
+IN|Hawthorn|Ben King
+IN|Hawthorn|Josh Goater
+IN|Hawthorn|Zach Merrett
+IN|Hawthorn|Ollie Purcell
+OUT|Hawthorn|Cody Anderson
+OUT|Hawthorn|James Blanck
+OUT|Hawthorn|Sam Butler
+OUT|Hawthorn|Henry Hustwaite
+OUT|Hawthorn|Finn Maginness
+OUT|Hawthorn|Flynn Perez
+OUT|Hawthorn|Max Ramsden
+OUT|Hawthorn|Bodie Ryan
+OUT|Hawthorn|Aidan Schubert
+OUT|Hawthorn|Jaime Uhr-Henry
+IN|Melbourne|Zane Duursma
+IN|Melbourne|Will McLachlan
+IN|Melbourne|Brandon Ryan
+OUT|Melbourne|Tom Campbell
+OUT|Melbourne|Jack Henderson
+OUT|Melbourne|Aidan Johnson
+OUT|Melbourne|Shane McAdam
+OUT|Melbourne|Tom McDonald
+OUT|Melbourne|Jake Melksham
+OUT|Melbourne|Andy Moniz-Wakefield
+OUT|Melbourne|Riley Onley
+OUT|Melbourne|Trent Rivers
+OUT|Melbourne|Jack Viney
+OUT|Melbourne|Kalani White
+IN|North Melbourne|Nick Blakey
+IN|North Melbourne|Darragh Joyce
+IN|North Melbourne|Samson Ryan
+IN|North Melbourne|Elijah Tsatas
+OUT|North Melbourne|Callum Coleman-Jones
+OUT|North Melbourne|Zane Duursma
+OUT|North Melbourne|Zac Fisher
+OUT|North Melbourne|Brayden George
+OUT|North Melbourne|Josh Goater
+OUT|North Melbourne|Robert Hansen jnr
+OUT|North Melbourne|Cooper Harvey
+OUT|North Melbourne|Bailey Scott
+OUT|North Melbourne|Luke Urquhart
+IN|Port Adelaide|Luke Pedlar
+OUT|Port Adelaide|Tom Anastasopoulos
+OUT|Port Adelaide|Benny Barrett
+OUT|Port Adelaide|Will Brodie
+OUT|Port Adelaide|Zak Butters
+OUT|Port Adelaide|Mani Liddy
+OUT|Port Adelaide|Ollie Lord
+OUT|Port Adelaide|Will Lorenz
+OUT|Port Adelaide|Jackson Mead
+OUT|Port Adelaide|Jacob Moss
+OUT|Port Adelaide|Ivan Soldo
+OUT|Port Adelaide|Xavier Walsh
+IN|Richmond|Kieren Briggs
+IN|Richmond|Nathan O'Driscoll
+OUT|Richmond|Nathan Broad
+OUT|Richmond|Liam Fawcett
+OUT|Richmond|Steely Green
+OUT|Richmond|Oliver Hayes-Brown
+OUT|Richmond|Dion Prestia
+OUT|Richmond|Samson Ryan
+OUT|Richmond|Kaleb Smith
+OUT|Richmond|Tyler Sonsie
+OUT|Richmond|James Trezise
+IN|St Kilda|Sam Marshall
+IN|St Kilda|Max Ramsden
+IN|St Kilda|Jake Stringer
+OUT|St Kilda|Dan Butler
+OUT|St Kilda|Ryan Byrnes
+OUT|St Kilda|Jack Carroll
+OUT|St Kilda|Paddy Dow
+OUT|St Kilda|Dougal Howard
+OUT|St Kilda|Isaac Keeler
+OUT|St Kilda|Rowan Marshall
+OUT|St Kilda|Patrick Said
+OUT|Sydney|Taylor Adams
+OUT|Sydney|Joel Amartey
+OUT|Sydney|Nick Blakey
+OUT|Sydney|Harry Cunningham
+OUT|Sydney|Dane Rampe
+IN|West Coast|Trent Rivers
+IN|West Coast|Jack Viney
+OUT|West Coast|Harry Barnett
+OUT|West Coast|Tyler Brockman
+OUT|West Coast|Jamie Cripps
+OUT|West Coast|Clay Hall
+OUT|West Coast|Harvey Johnston
+OUT|West Coast|Matthew Owies
+OUT|West Coast|Harry Schoenberg
+OUT|West Coast|Jack Williams
+IN|Western Bulldogs|Zak Butters
+IN|Western Bulldogs|Jordon Butts
+IN|Western Bulldogs|Finn Maginness
+IN|Western Bulldogs|Hudson O'Keeffe
+OUT|Western Bulldogs|Oskar Baker
+OUT|Western Bulldogs|Nick Coffield
+OUT|Western Bulldogs|Harvey Gallagher
+OUT|Western Bulldogs|Riley Garcia
+OUT|Western Bulldogs|Ryan Gardner
+OUT|Western Bulldogs|James Harmes
+OUT|Western Bulldogs|Tom Liberatore
+OUT|Western Bulldogs|Lachlan McNeil
+OUT|Western Bulldogs|Lachlan Smith
+OUT|Western Bulldogs|Adam Treloar
+OUT|Western Bulldogs|Zac Walker
