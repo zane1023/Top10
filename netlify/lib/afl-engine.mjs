@@ -136,11 +136,15 @@ export function playerLeg(model, g, pl, stat, line, learn) {
   const pn = clamp(nbAtLeast(line, pl.m[stat][2], r), P_MIN, P_MAX); // a simple last-10 average, like a lazy bookie
   const pb = 0.25 * pn + 0.75 * p0; // bookies are sharp: mostly our number, nudged toward a plain recent average
   const book = Math.max(1.01, 1 / Math.min(0.99, pb * (1 + model.params.bookie_margin.prop)));
+  // For choosing legs, trust the model a little less where it is much more bullish than the player's recent games.
+  // A blind 2026 back-test showed these legs (mostly "to kick a goal" for players whose role had changed) hit
+  // about 15% of the time when the model said 22%; the picker was drawn to them because their estimated odds looked long.
+  const psel = clamp(p - 0.3 * Math.max(0, p - pn), P_MIN, P_MAX);
   const short = stat === 'goals' && line === 1 ? 'to kick a goal' : `${line}+ ${stat}`;
   return {
     id: `P|${g.key}|${pl.n}|${stat}|${line}`, kind: 'player', game: g.key, player: pl.n, team: pl.t, opp, stat, line,
     label: `${pl.n} ${short}`, sub: `${pl.t} v ${opp} · avg ${r2(mu)} · last 5: ${(pl.l5?.[stat] || []).join(', ') || '—'}`,
-    mu: r2(mu), p: r2(p * 1000) / 1000, p0: r2(p0 * 1000) / 1000, fair: r2(1 / p), book: r2(book), av: pl.av,
+    mu: r2(mu), p: r2(p * 1000) / 1000, p0: r2(p0 * 1000) / 1000, psel: r2(psel * 1000) / 1000, fair: r2(1 / p), book: r2(book), av: pl.av,
   };
 }
 
@@ -189,7 +193,7 @@ export function optimise(options, { legs: N, target, locked = [], perGame }) {
 
   const groups = new Map();
   for (const o of pool) { const k = groupOf(o); if (!groups.has(k)) groups.set(k, []); groups.get(k).push(o); }
-  const lp = (o) => Math.log(o.p), lo = (o) => Math.log(o.book);
+  const lp = (o) => Math.log(o.psel ?? o.p), lo = (o) => Math.log(o.book);
 
   function pick(lambda) {
     const best = [];
@@ -397,7 +401,7 @@ export function generate(model, history, req) {
   return {
     round: { label: market.round.label, practice: !!market.round.practice, season: market.round.season, round: market.round.round, first: market.round.games[0]?.day },
     request: { mode: req.mode, legs, target, text: req.request || null },
-    legs: L.map(({ g, ...l }) => ({ ...l, locked: locked.some((x) => x.id === l.id) || undefined, p: Math.round(l.p * 1000) / 1000, p0: Math.round(l.p0 * 1000) / 1000 })),
+    legs: L.map(({ g, psel, ...l }) => ({ ...l, locked: locked.some((x) => x.id === l.id) || undefined, p: Math.round(l.p * 1000) / 1000, p0: Math.round(l.p0 * 1000) / 1000 })),
     multi: { p: pAll, fair: r2(fair), book: r2(book), target, closeness: Math.round(closeness), ev: r2(ev), legs: L.length, minOdds: r2(res.minOdds), maxOdds: r2(res.maxOdds) },
     warnings,
   };
