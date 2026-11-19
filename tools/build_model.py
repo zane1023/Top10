@@ -166,6 +166,19 @@ def fit_ratings(g, start_eval):
                     if best is None or ll < best[0]: best = (ll, k, carry, hga, sigma)
     return dict(logloss=best[0], k=best[1], carry=best[2], hga=best[3], sigma=best[4])
 
+def h2h_scale_cal(tg, rp, start=2016):
+    """Match-winner calibration: one stretch factor on the rating model's z-score, fitted on every season since 2016
+    (walk-forward). Back-tests on 2024-26 found this beats an isotonic map fitted on the last two seasons, which
+    squashed big favourites (80%+ favourites won ~93% of the time when rated 88%)."""
+    from scipy.stats import norm
+    pr = np.array(run_elo(tg, rp['k'], rp['carry'], rp['hga'], rp['sigma'], start)[2])
+    z, y = norm.ppf(np.clip(pr[:, 0], 1e-4, 1 - 1e-4)), pr[:, 1]
+    def ll(a):
+        q = np.clip(norm.cdf(a * z), 1e-4, 1 - 1e-4); return -np.mean(y * np.log(q) + (1 - y) * np.log(1 - q))
+    a = min(np.arange(0.7, 1.5, 0.01), key=ll)
+    xs = np.linspace(0.001, 0.999, 121)
+    return [[0.0] + [round(float(x), 4) for x in xs] + [1.0], [0.0] + [round(float(norm.cdf(a * norm.ppf(x))), 4) for x in xs] + [1.0]]
+
 # ------------------------------------------------------------------ calibration helpers
 def pav(x, y, bins=20):
     """Isotonic fit on quantile bins; returns breakpoints (raw p) and calibrated p (monotone)."""
@@ -301,7 +314,7 @@ def main():
     if year > last_season:   # new season not started: apply the off-season regression now
         for t in R: R[t] *= rp['carry']
     rp['margin_sd'] = round(run_elo.margin_sd, 1)
-    h2h_cal = pav([p for p, y in preds], [y for p, y in preds], bins=10)
+    h2h_cal = h2h_scale_cal(tg, rp)
     log('ratings', rp, 'recent logloss', round(ll, 4))
 
     # 5. player model — walk-forward fit on the last two seasons
