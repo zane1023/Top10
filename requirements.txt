@@ -1,0 +1,6 @@
+pandas
+pyarrow
+numpy
+scipy
+lxml
+html5lib
