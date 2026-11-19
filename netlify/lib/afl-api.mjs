@@ -56,6 +56,7 @@ export async function handle(req, { store, model, ip = 'x', envPin }) {
     const mk = buildMarket(model, bets);
     return json(200, {
       round: { ...model.round, games: mk.games }, built: model.built, dataThrough: model.data_through,
+      rounds: (model.rounds || [model.round]).map((r) => ({ round: r.round, label: r.label, first: r.games[0]?.day, games: r.games.length })),
       report: reportCard(model, bets), players: model.players.length, sources: model.sources,
     });
   }
@@ -75,7 +76,8 @@ export async function handle(req, { store, model, ip = 'x', envPin }) {
     if (!legs.length) return json(400, { error: 'no legs' });
     const bet = {
       id: randomBytes(6).toString('hex'), placedAt: new Date().toISOString(), status: 'pending',
-      practice: !!model.round.practice, round: model.round.label, season: model.round.season, roundNo: model.round.round,
+      practice: r.round ? !!r.round.practice : !!model.round.practice, round: String(r.round?.label || model.round.label).slice(0, 120),
+      season: Number(r.round?.season) || model.round.season, roundNo: Number(r.round?.round) || model.round.round,
       mode: r.request?.mode === 'custom' ? 'custom' : 'best', request: (r.request?.text || '').slice(0, 600) || null,
       target: Number(r.request?.target) || null, stake: Math.max(0, Math.min(1e6, Number(body.stake) || 0)), note: String(body.note || '').slice(0, 200),
       legs,

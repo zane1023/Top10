@@ -1,5 +1,10 @@
 [build]
   publish = "."
+  # Rebuilds the AFL HP model (netlify/data/model.json) from the latest stats, fixture and tips on every deploy.
+  command = "pip install -q -r requirements.txt && python3 tools/build_model.py"
+
+[build.environment]
+  PYTHON_VERSION = "3.12"
 
 [functions]
   directory = "netlify/functions"
