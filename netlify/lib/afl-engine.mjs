@@ -145,9 +145,9 @@ export function playerLeg(model, g, pl, stat, line, learn) {
 }
 
 // ---------------------------------------------------------------- the round's market
-export function buildMarket(model, history, opts = {}) {
+export function buildMarket(model, history, round = model.round) {
   const learn = learnFactors(history);
-  const round = model.round, games = round.games;
+  const games = round.games;
   const byTeam = {};
   for (const g of games) { byTeam[g.home] = g; byTeam[g.away] = g; }
   const gps = {}, options = [], gameInfo = [];
@@ -167,7 +167,7 @@ export function buildMarket(model, history, opts = {}) {
       }
     }
   }
-  return { learn, games: gameInfo, gps, options, byTeam };
+  return { learn, games: gameInfo, gps, options, byTeam, round };
 }
 
 // ---------------------------------------------------------------- optimiser
@@ -261,7 +261,7 @@ function findTeams(text) {
 export function parseRequest(text, market, model) {
   const notes = [], locked = [], filter = { excludeTeams: new Set(), onlyStats: null, noTeam: false, onlyTeams: null };
   let legs = null, target = null;
-  const t = norm(text || '');
+  const t = norm(text || '').replace(/\b(?:round|rd)\s*\d{1,2}\b/g, ' ').replace(/\bnext (?:game|match)( only)?\b/g, ' ').replace(/\s+/g, ' ').trim();
   let m;
   if ((m = t.match(/(\d{1,2})\s*(?:-|\s)?\s*(?:legs?|leg multi|leg)/))) legs = clamp(+m[1], 1, 21);
   if ((m = t.match(/(?:\$|odds (?:of |around |about )?)(\d+(?:\.\d+)?)/) || t.match(/(\d+(?:\.\d+)?)\s*(?:x|times)\b/))) target = clamp(+m[1], 1.1, 5000);
@@ -327,7 +327,7 @@ export function parseRequest(text, market, model) {
     const teams = findTeams(seg);
     if (!teams.length) continue;
     const team = teams[0].team, g = market.byTeam[team];
-    if (!g) { notes.push(`${team} don't play in ${model.round.label}`); continue; }
+    if (!g) { notes.push(`${team} don't play in ${market.round.label}`); continue; }
     const isLose = /(lose|loses|lost|losing|beaten|go down|to fall)/.test(seg) && !/beat\s/.test(seg.slice(0, teams[0].i));
     const winTeam = isLose ? (team === g.home ? g.away : g.home) : team;
     if (/(win|beat|over|defeat|salute|lose|loses|lost|beaten|go down|h2h|head to head|by \d+)/.test(seg) || teams.length > 1 || seg.trim() === norm(team)) {
@@ -346,9 +346,26 @@ export function parseRequest(text, market, model) {
   return { locked: [...seen.values()], filter, legs, target, notes };
 }
 
+// ---------------------------------------------------------------- which games
+// Default: the next round still to be played. A request can ask ahead ("round 5") or for just the next game.
+export function pickRound(model, text) {
+  const rounds = model.rounds?.length ? model.rounds : [model.round];
+  const t = norm(text || ''), notes = [];
+  let r = rounds[0];
+  const m = t.match(/\b(?:round|rd)\s*(\d{1,2})\b/);
+  if (m) {
+    const want = rounds.find((x) => x.round === +m[1]);
+    if (want) r = want;
+    else notes.push(`Round ${m[1]} isn't open yet (open rounds: ${rounds[0].round}–${rounds[rounds.length - 1].round}), so this uses ${r.label}.`);
+  }
+  if (/\bnext (?:game|match)\b/.test(t) && r.games.length) r = { ...r, label: `${r.label} · ${r.games[0].home} v ${r.games[0].away}`, games: [r.games[0]] };
+  return { round: r, notes };
+}
+
 // ---------------------------------------------------------------- generate
 export function generate(model, history, req) {
-  const market = buildMarket(model, history);
+  const picked = pickRound(model, req.mode === 'custom' ? req.request : '');
+  const market = buildMarket(model, history, picked.round);
   let legs = clamp(Math.round(+req.legs || 4), 1, 21), target = clamp(+req.target || 5, 1.1, 5000), parsed = null;
   let pool = market.options.filter((o) => o.kind === 'team' || (o.av >= 0.75 && o.g >= 8));
   if (req.mode === 'custom' && req.request) {
@@ -369,7 +386,7 @@ export function generate(model, history, req) {
   const fair = L.reduce((a, l) => a * l.fair, 1), book = L.reduce((a, l) => a * l.book, 1);
   const closeness = Math.max(0, 100 - Math.abs(Math.log(book / target)) / Math.log(target > 1.5 ? target : 1.5) * 100);
   const sameGame = {}; for (const l of L) sameGame[l.game] = (sameGame[l.game] || 0) + 1;
-  const warnings = [...(parsed?.notes || [])];
+  const warnings = [...picked.notes, ...(parsed?.notes || [])];
   const allSet = locked.length >= legs;
   if (allSet) warnings.push('Every leg came from your request, so the target odds were not used.');
   if (L.length < legs) warnings.push(`Only ${L.length} legs fit the rules (one per player, one result per game, max per game).`);
@@ -378,7 +395,7 @@ export function generate(model, history, req) {
   if (Object.values(sameGame).some((n) => n > 1)) warnings.push('Some legs share a game. Their results are linked, so bookies usually pay a bit less than the straight product on same-game legs.');
   const ev = pAll * book;
   return {
-    round: { label: model.round.label, practice: model.round.practice, season: model.round.season, round: model.round.round },
+    round: { label: market.round.label, practice: !!market.round.practice, season: market.round.season, round: market.round.round, first: market.round.games[0]?.day },
     request: { mode: req.mode, legs, target, text: req.request || null },
     legs: L.map(({ g, ...l }) => ({ ...l, locked: locked.some((x) => x.id === l.id) || undefined, p: Math.round(l.p * 1000) / 1000, p0: Math.round(l.p0 * 1000) / 1000 })),
     multi: { p: pAll, fair: r2(fair), book: r2(book), target, closeness: Math.round(closeness), ev: r2(ev), legs: L.length, minOdds: r2(res.minOdds), maxOdds: r2(res.maxOdds) },
