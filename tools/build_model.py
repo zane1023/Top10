@@ -27,7 +27,7 @@ import pandas as pd
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 PARQUET_URL = 'https://raw.githubusercontent.com/DanielTomaro13/AFL-Modelling/main/data/processed/player_match.parquet'
-UA = {'User-Agent': 'AFL-HP personal model (github.com/zane1023/Top10)'}
+UA = {'User-Agent': 'AFL-HP personal tipping model - github.com/zane1023/Top10 - apollyon.netlify.app'}
 STATS = ['disposals', 'goals', 'marks', 'tackles', 'kicks', 'handballs']
 LINES = {'disposals': [10, 15, 20, 25, 30, 35, 40], 'goals': [1, 2, 3, 4], 'marks': [3, 5, 7, 9],
          'tackles': [2, 4, 6, 8], 'kicks': [8, 12, 16, 20, 25], 'handballs': [6, 10, 14, 18]}
@@ -82,6 +82,24 @@ def tidy(df):
     df = df.dropna(subset=['player', 'team', 'disposals'])
     df['season'] = df.season.astype(int); df['round'] = df['round'].astype(int)
     return df
+
+def load_fixture_files(today):
+    """Fallback fixture (tools/fixture_YYYY.txt) for when the Squiggle API can't be reached (it refuses Netlify's build servers)."""
+    import glob
+    games, tips = [], {}
+    for fn in sorted(glob.glob(os.path.join(HERE, 'fixture_*.txt'))):
+        yr = int(re.findall(r'(\d{4})', os.path.basename(fn))[0])
+        if yr < today.year: continue
+        for line in open(fn, encoding='utf-8'):
+            line = line.strip()
+            if not line or line.startswith('#'): continue
+            f = line.split('|')
+            if f[0] == 'TIP': tips.setdefault(int(f[1]), []).append(float(f[2])); continue
+            hs = int(f[7]) if len(f) > 8 and f[7] != '' else None
+            as_ = int(f[8]) if len(f) > 8 and f[8] != '' else None
+            games.append(dict(id=int(f[0]), year=yr, round=int(f[1]), roundname=f[2], hteam=f[3], ateam=f[4], date=f[5], venue=f[6],
+                              complete=100 if hs is not None else 0, hscore=hs, ascore=as_))
+    return games, tips
 
 def squiggle(q):
     return json.loads(http_get('https://api.squiggle.com.au/?q=' + q))
@@ -279,6 +297,13 @@ def main():
             log('squiggle games', len(sq_games), 'for', year)
         except Exception as e:
             log('squiggle unavailable:', e)
+    if not sq_games and not a.fixture and not a.offline:
+        sq_games, ftips = load_fixture_files(today)
+        for k, v in ftips.items(): tips.setdefault(k, []).extend(v)
+        if sq_games:
+            open_years = [int(g['year']) for g in sq_games if not g['complete']]
+            year = min(open_years) if open_years else max(int(g['year']) for g in sq_games)
+            log('using fixture file:', len(sq_games), 'games for', year)
     games = []
     for gm in sq_games:
         if tn(gm.get('hteam')) not in STATE_ALL or tn(gm.get('ateam')) not in STATE_ALL: continue   # finals not set yet
