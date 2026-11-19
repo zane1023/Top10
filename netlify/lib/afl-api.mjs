@@ -51,6 +51,10 @@ export async function handle(req, { store, model, ip = 'x', envPin }) {
 
   if (a === 'login') return json(200, { ok: true });
 
+  if (!model || model.stub || !Array.isArray(model.players)) {
+    return json(503, { error: 'The model has not been built yet (the last deploy could not build it).', builtAt: model?.at || null, log: model?.log_tail || [] });
+  }
+
   if (a === 'meta') {
     const bets = await read();
     const mk = buildMarket(model, bets);
