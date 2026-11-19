@@ -1,8 +1,9 @@
 // Netlify Function (v2) for the private AFL HP multi page (bets.html).
-// The model is rebuilt weekly by .github/workflows/afl-hp-weekly.yml and bundled from netlify/data/model.json.
+// The model (netlify/data/model.json) is built on every Netlify deploy by tools/netlify_build.py and bundled in here.
+// If that build failed, model.json is a small stub and the API reports it instead of crashing.
 // Optional env vars: BET_PIN (replaces the default PIN).
 import { getStore } from '@netlify/blobs';
-import model from '../data/model.json' with { type: 'json' };
+import model from '../data/model.json';
 import { handle } from '../lib/afl-api.mjs';
 
 const store = () => getStore({ name: 'afl-hp-bets', consistency: 'strong' });

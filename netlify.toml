@@ -1,10 +1,8 @@
 [build]
   publish = "."
-  # Rebuilds the AFL HP model (netlify/data/model.json) from the latest stats, fixture and tips on every deploy.
-  command = "pip install -q -r requirements.txt && python3 tools/build_model.py && python3 tools/link_timeline.py"
-
-[build.environment]
-  PYTHON_VERSION = "3.12"
+  # Builds the AFL HP model and adds the hidden link. This step never fails the deploy;
+  # see build-status.txt on the site for what happened.
+  command = "python3 tools/netlify_build.py"
 
 [functions]
   directory = "netlify/functions"
