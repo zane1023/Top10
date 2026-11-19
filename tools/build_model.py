@@ -73,12 +73,12 @@ def tidy(df):
             'timeOnGroundPercentage'] + STATS
     df = df[[c for c in keep if c in df.columns]].copy()
     for c in ('team', 'opponent'): df[c] = df[c].map(tn)
-    if np.issubdtype(df['date'].dtype, np.number):
+    if pd.api.types.is_numeric_dtype(df['date']):     # raw microseconds (bundled reader) vs a real datetime (pyarrow)
         df['date'] = pd.to_datetime(df['date'], unit='us', utc=True)
     df['date'] = pd.to_datetime(df['date'], utc=True).dt.tz_convert('Australia/Melbourne')
     df['day'] = df['date'].dt.strftime('%Y-%m-%d')
     for c in ['season', 'round', 'is_home', 'team_score', 'opp_score'] + STATS:
-        df[c] = pd.to_numeric(df[c], errors='coerce')
+        df[c] = pd.to_numeric(df[c], errors='coerce').astype('float64')   # plain numpy floats, whatever the reader gave
     df = df.dropna(subset=['player', 'team', 'disposals'])
     df['season'] = df.season.astype(int); df['round'] = df['round'].astype(int)
     return df
